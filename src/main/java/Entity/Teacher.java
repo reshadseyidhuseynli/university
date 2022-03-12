@@ -3,7 +3,6 @@ package Entity;
 import abstraction.Person;
 import abstraction.Student;
 import enamerations.AcademicRank;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,6 +36,10 @@ public class Teacher extends Person {
         this.lessons = lessons;
     }
 
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
     public void addStudent (Student student){
         students.add(student);
     }
@@ -63,6 +66,10 @@ public class Teacher extends Person {
 
     public List<Lesson> getLessons() {
         return lessons;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
     }
 
     @Override

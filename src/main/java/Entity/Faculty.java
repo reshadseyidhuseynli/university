@@ -3,7 +3,6 @@ package Entity;
 import abstraction.Identifier;
 import abstraction.Student;
 import enamerations.AcademicRank;
-
 import java.util.List;
 
 public class Faculty extends Identifier {
