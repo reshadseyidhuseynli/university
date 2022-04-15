@@ -1,7 +1,7 @@
 package com.company.department;
 
-import com.company.abstraction.AbstractExam;
-import com.company.entity.Question;
+import com.company.util.abstraction.AbstractExam;
+import com.company.database.entity.Question;
 import java.util.Random;
 
 public class ExamRoom extends AbstractExam {

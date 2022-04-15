@@ -1,6 +1,6 @@
 package com.company.department;
 
-import com.company.entity.Book;
+import com.company.database.entity.Book;
 
 import java.util.*;
 

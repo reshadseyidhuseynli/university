@@ -1,8 +1,8 @@
 package com.company.department;
 
-import com.company.entity.Faculty;
-import com.company.entity.Teacher;
-import com.company.entity.Student;
+import com.company.database.entity.Faculty;
+import com.company.database.entity.Teacher;
+import com.company.database.entity.Student;
 import java.util.HashSet;
 import java.util.Set;
 
