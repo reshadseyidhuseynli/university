@@ -19,8 +19,8 @@ public class Student extends PersonEntity implements Serializable {
 
     public Student(){
     }
-    public Student(Integer id, String name, String surname, LocalDate birthdate, Faculty faculty) {
-        super(id, name, surname, birthdate);
+    public Student(String name, String surname, LocalDate birthdate, Faculty faculty) {
+        super(name, surname, birthdate);
         this.faculty = faculty;
         this.grade = Grade.BACHELOR_I;
     }

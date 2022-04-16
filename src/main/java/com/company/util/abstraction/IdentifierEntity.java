@@ -18,8 +18,7 @@ public abstract class IdentifierEntity {
     public IdentifierEntity() {
     }
 
-    protected IdentifierEntity(Integer id, String name) {
-        this.id = id;
+    protected IdentifierEntity(String name) {
         this.name = name;
     }
 

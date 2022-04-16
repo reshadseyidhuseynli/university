@@ -11,8 +11,8 @@ public abstract class PersonEntity extends IdentifierEntity {
 
     public PersonEntity() {
     }
-    protected PersonEntity(Integer id, String name, String surname, LocalDate birthdate) {
-        super(id, name);
+    protected PersonEntity(String name, String surname, LocalDate birthdate) {
+        super(name);
         this.surname = surname;
         this.birthdate = birthdate;
     }

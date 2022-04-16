@@ -1,6 +1,5 @@
 package com.company.dto;
 
-import com.company.database.entity.Faculty;
 import com.company.database.entity.Student;
 import com.company.util.abstraction.PersonDTO;
 import com.company.util.enamerations.Grade;

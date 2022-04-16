@@ -5,7 +5,6 @@ import com.company.database.entity.JoinTeacherStudent;
 import com.company.database.entity.Teacher;
 import com.company.util.abstraction.PersonDTO;
 import com.company.util.enamerations.AcademicRank;
-
 import java.util.ArrayList;
 import java.util.List;
 

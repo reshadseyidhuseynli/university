@@ -25,8 +25,8 @@ public class Faculty extends IdentifierEntity implements Serializable {
     public Faculty(){
     }
 
-    public Faculty(int id, String name) {
-        super(id,name);
+    public Faculty(String name) {
+        super(name);
     }
 
     public Teacher getHead() {

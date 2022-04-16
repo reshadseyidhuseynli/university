@@ -22,12 +22,10 @@ public class Book extends IdentifierEntity implements Serializable {
     public Book(){
     }
 
-    public Book(Integer id, String name, Author author, BookType type, Integer page, boolean hardCover) {
-        super(id, name);
+    public Book(String name, Author author, Integer page) {
+        super(name);
         this.author = author;
-        this.type = type;
         this.page = page;
-        this.hardCover = hardCover;
     }
 
     public Author getAuthor() {

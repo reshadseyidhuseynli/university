@@ -17,8 +17,8 @@ public class Lesson extends IdentifierEntity implements Serializable {
 
     public Lesson(){
     }
-    public Lesson(int id, String name, Faculty faculty) {
-        super(id, name);
+    public Lesson(String name, Faculty faculty) {
+        super(name);
         this.faculty = faculty;
     }
 

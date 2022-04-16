@@ -25,9 +25,8 @@ public class Teacher extends PersonEntity implements Serializable {
 
     public Teacher(){
     }
-    public Teacher(int id, String name, String surname, LocalDate birthdate, AcademicRank academicRank, Faculty faculty) {
-        super(id, name, surname, birthdate);
-        this.academicRank = academicRank;
+    public Teacher(String name, String surname, LocalDate birthdate, Faculty faculty) {
+        super(name, surname, birthdate);
         this.faculty = faculty;
     }
 

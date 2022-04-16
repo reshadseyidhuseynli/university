@@ -2,7 +2,6 @@ package com.company.dto;
 
 import com.company.database.entity.*;
 import com.company.util.abstraction.IdentifierDTO;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.company.dto;
 
 import com.company.database.entity.Question;
-import com.company.util.abstraction.IdentifierDTO;
 
 public class QuestionDTO {
 
