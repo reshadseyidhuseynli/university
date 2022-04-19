@@ -70,16 +70,6 @@ public class FacultyController {
         return ResponseEntity.ok(ResponseDTO.createResponse(response));
     }
 
-    @GetMapping
-    @RequestMapping("/faculties/{id}/questions")
-    public ResponseEntity<ResponseDTO> getTheFacultyQuestions(@PathVariable("id") Integer id){
-        List<QuestionDTO> response = new ArrayList<>();
-        for (Question q : service.getById(id).getQuestions()){
-            response.add(new QuestionDTO(q));
-        }
-        return ResponseEntity.ok(ResponseDTO.createResponse(response));
-    }
-
     @DeleteMapping
     @RequestMapping("/faculties/{id}")
     public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id){
@@ -135,23 +125,6 @@ public class FacultyController {
         faculty.getStudents().add(newStudent);
         service.addOrUpdate(faculty);
         StudentDTO response = new StudentDTO(newStudent);
-        return ResponseEntity.ok(ResponseDTO.createResponse(response, "successfully added"));
-    }
-
-    @GetMapping
-    @RequestMapping("/faculties/{id}/add+question")
-    public ResponseEntity<ResponseDTO> addQuestion(@PathVariable("id") Integer id,
-                                                   @RequestParam(value = "text") String text,
-                                                   @RequestParam(value = "option1") String option1,
-                                                   @RequestParam(value = "option2") String option2,
-                                                   @RequestParam(value = "option3") String option3,
-                                                   @RequestParam(value = "option4") String option4,
-                                                   @RequestParam(value = "trueOption") Integer trueOption){
-        Faculty faculty = service.getById(id);
-        Question newQuestion = new Question(text, option1, option2, option3, option4, trueOption);
-        faculty.getQuestions().add(newQuestion);
-        service.addOrUpdate(faculty);
-        QuestionDTO response = new QuestionDTO(newQuestion);
         return ResponseEntity.ok(ResponseDTO.createResponse(response, "successfully added"));
     }
 }

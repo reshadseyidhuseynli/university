@@ -13,7 +13,9 @@ public class Lesson extends IdentifierEntity implements Serializable {
     @ManyToOne
     private Faculty faculty;
     @OneToMany(mappedBy = "lesson")
-    private List<JoinTeacherLesson> teachers;
+    private List<Teacher> teachers;
+    @OneToMany(mappedBy = "lesson")
+    private List<Question> questions;
 
     public Lesson(){
     }
@@ -30,12 +32,20 @@ public class Lesson extends IdentifierEntity implements Serializable {
         this.faculty = faculty;
     }
 
-    public List<JoinTeacherLesson> getTeachers() {
+    public List<Teacher> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(List<JoinTeacherLesson> teachers) {
+    public void setTeachers(List<Teacher> teachers) {
         this.teachers = teachers;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
     @Override

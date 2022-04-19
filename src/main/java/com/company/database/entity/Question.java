@@ -22,9 +22,9 @@ public class Question implements Serializable {
     private String option4;
     @Column(name = "true_option")
     private Integer trueOption;
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     @ManyToOne
-    private Faculty faculty;
+    private Lesson lesson;
 
     public Question(){
     }
@@ -93,12 +93,12 @@ public class Question implements Serializable {
         this.trueOption = trueOption;
     }
 
-    public Faculty getFaculty() {
-        return faculty;
+    public Lesson getLesson() {
+        return lesson;
     }
 
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 
     @Override

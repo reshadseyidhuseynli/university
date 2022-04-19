@@ -1,11 +1,8 @@
 package com.company.restful;
 
-import com.company.database.entity.JoinTeacherLesson;
 import com.company.database.entity.JoinTeacherStudent;
-import com.company.database.entity.Student;
 import com.company.database.entity.Teacher;
 import com.company.database.service.inter.TeacherService;
-import com.company.dto.LessonDTO;
 import com.company.dto.ResponseDTO;
 import com.company.dto.StudentDTO;
 import com.company.dto.TeacherDTO;
@@ -48,15 +45,6 @@ public class TeacherController {
         return ResponseEntity.ok(ResponseDTO.createResponse(response));
     }
 
-    @GetMapping
-    @RequestMapping("/teachers/{id}/lessons")
-    public ResponseEntity<ResponseDTO> getTheTeacherLessons(@PathVariable("id") Integer id){
-        List<LessonDTO> response = new ArrayList<>();
-        for (JoinTeacherLesson j : service.getById(id).getLessons()){
-            response.add(new LessonDTO(j.getLesson()));
-        }
-        return ResponseEntity.ok(ResponseDTO.createResponse(response));
-    }
 
     @DeleteMapping
     @RequestMapping("/teachers/{id}")

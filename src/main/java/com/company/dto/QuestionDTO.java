@@ -11,7 +11,7 @@ public class QuestionDTO {
     private String option3;
     private String option4;
     private Integer trueOption;
-    private FacultyDTO faculty;
+    private LessonDTO lesson;
 
     public QuestionDTO() {
     }
@@ -24,7 +24,7 @@ public class QuestionDTO {
         this.option3 = question.getOption3();
         this.option4 = question.getOption4();
         this.trueOption = question.getTrueOption();
-        this.faculty = new FacultyDTO(question.getFaculty());
+        this.lesson = new LessonDTO(question.getLesson());
     }
 
     public Integer getId() {
@@ -83,11 +83,11 @@ public class QuestionDTO {
         this.trueOption = trueOption;
     }
 
-    public FacultyDTO getFaculty() {
-        return faculty;
+    public LessonDTO getLesson() {
+        return lesson;
     }
 
-    public void setFaculty(FacultyDTO faculty) {
-        this.faculty = faculty;
+    public void setLesson(LessonDTO lesson) {
+        this.lesson = lesson;
     }
 }

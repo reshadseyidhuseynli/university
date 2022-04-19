@@ -19,8 +19,7 @@ public class Faculty extends IdentifierEntity implements Serializable {
     private List<Teacher> teachers;
     @OneToMany(mappedBy = "faculty")
     private List<Student> students;
-    @OneToMany(mappedBy = "faculty")
-    private List<Question> questions;
+
 
     public Faculty(){
     }
@@ -65,13 +64,7 @@ public class Faculty extends IdentifierEntity implements Serializable {
         this.students = students;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
 
     @Override
     public String toString() {

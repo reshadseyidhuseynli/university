@@ -1,6 +1,5 @@
 package com.company.dto;
 
-import com.company.database.entity.JoinTeacherLesson;
 import com.company.database.entity.JoinTeacherStudent;
 import com.company.database.entity.Teacher;
 import com.company.util.abstraction.PersonDTO;
@@ -13,7 +12,7 @@ public class TeacherDTO extends PersonDTO {
     private AcademicRank rank;
     private FacultyDTO faculty;
     private List<StudentDTO> students;
-    private List<LessonDTO> lessons;
+    private LessonDTO lesson;
 
     public TeacherDTO() {
     }
@@ -31,10 +30,7 @@ public class TeacherDTO extends PersonDTO {
             students.add(new StudentDTO(jts.getStudent()));
         }
 
-        this.lessons = new ArrayList<>();
-        for (JoinTeacherLesson jtl : teacher.getLessons()){
-            lessons.add(new LessonDTO(jtl.getLesson()));
-        }
+        this.lesson = new LessonDTO(teacher.getLesson());
     }
 
     public AcademicRank getRank() {
@@ -61,11 +57,11 @@ public class TeacherDTO extends PersonDTO {
         this.students = students;
     }
 
-    public List<LessonDTO> getLessons() {
-        return lessons;
+    public LessonDTO getLesson() {
+        return lesson;
     }
 
-    public void setLessons(List<LessonDTO> lessons) {
-        this.lessons = lessons;
+    public void setLesson(LessonDTO lesson) {
+        this.lesson = lesson;
     }
 }

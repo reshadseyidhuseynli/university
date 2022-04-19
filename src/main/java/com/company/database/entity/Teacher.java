@@ -17,11 +17,13 @@ public class Teacher extends PersonEntity implements Serializable {
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne
     private Faculty faculty;
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
+    @ManyToOne
+    private Lesson lesson;
 
     @OneToMany(mappedBy = "teacher")
     private List<JoinTeacherStudent> students;
-    @OneToMany(mappedBy = "teacher")
-    private List<JoinTeacherLesson> lessons;
+
 
     public Teacher(){
     }
@@ -54,12 +56,12 @@ public class Teacher extends PersonEntity implements Serializable {
         this.students = students;
     }
 
-    public List<JoinTeacherLesson> getLessons() {
-        return lessons;
+    public Lesson getLesson() {
+        return lesson;
     }
 
-    public void setLessons(List<JoinTeacherLesson> lessons) {
-        this.lessons = lessons;
+    public void setLesson(Lesson lessons) {
+        this.lesson = lessons;
     }
 
     @Override

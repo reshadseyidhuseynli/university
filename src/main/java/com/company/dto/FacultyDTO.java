@@ -11,7 +11,6 @@ public class FacultyDTO extends IdentifierDTO {
     private List<LessonDTO> lessons;
     private List<TeacherDTO> teachers;
     private List<StudentDTO> students;
-    private List<QuestionDTO> questions;
 
     public FacultyDTO() {
     }
@@ -35,11 +34,6 @@ public class FacultyDTO extends IdentifierDTO {
         this.students = new ArrayList<>();
         for (Student s : faculty.getStudents()){
             students.add(new StudentDTO(s));
-        }
-
-        this.questions = new ArrayList<>();
-        for (Question q : faculty.getQuestions()){
-            questions.add(new QuestionDTO(q));
         }
     }
 
@@ -73,13 +67,5 @@ public class FacultyDTO extends IdentifierDTO {
 
     public void setStudents(List<StudentDTO> students) {
         this.students = students;
-    }
-
-    public List<QuestionDTO> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<QuestionDTO> questions) {
-        this.questions = questions;
     }
 }
