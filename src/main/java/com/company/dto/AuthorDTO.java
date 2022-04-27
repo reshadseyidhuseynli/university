@@ -1,7 +1,7 @@
 package com.company.dto;
 
-import com.company.database.entity.Author;
-import com.company.database.entity.Book;
+import com.company.entity.Author;
+import com.company.entity.Book;
 import com.company.util.abstraction.IdentifierDTO;
 
 import java.util.ArrayList;

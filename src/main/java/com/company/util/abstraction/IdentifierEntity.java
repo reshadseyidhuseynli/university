@@ -1,7 +1,6 @@
 package com.company.util.abstraction;
 
-import com.company.database.entity.Faculty;
-
+import com.company.entity.Faculty;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Id;

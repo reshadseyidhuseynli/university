@@ -1,30 +1,40 @@
-package com.company.dto;
+package com.company.entity;
 
-import com.company.entity.Question;
+import javax.persistence.*;
+import java.io.Serializable;
 
-public class QuestionDTO {
+@Entity
+@Table(name = "question")
+public class Question implements Serializable {
 
+    @Id
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "text")
     private String text;
+    @Column(name = "option1")
     private String option1;
+    @Column(name = "option2")
     private String option2;
+    @Column(name = "option3")
     private String option3;
+    @Column(name = "option4")
     private String option4;
+    @Column(name = "true_option")
     private Integer trueOption;
-    private LessonDTO lesson;
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
+    @ManyToOne
+    private Lesson lesson;
 
-    public QuestionDTO() {
+    public Question(){
     }
-
-    public QuestionDTO(Question question) {
-        this.id = question.getId();
-        this.text = question.getText();
-        this.option1 = question.getOption1();
-        this.option2 = question.getOption2();
-        this.option3 = question.getOption3();
-        this.option4 = question.getOption4();
-        this.trueOption = question.getTrueOption();
-        this.lesson = new LessonDTO(question.getLesson());
+    public Question(String text, String option1, String option2, String option3, String option4, Integer trueOption) {
+        this.text = text;
+        this.option1 = option1;
+        this.option2 = option2;
+        this.option3 = option3;
+        this.option4 = option4;
+        this.trueOption = trueOption;
     }
 
     public Integer getId() {
@@ -83,11 +93,19 @@ public class QuestionDTO {
         this.trueOption = trueOption;
     }
 
-    public LessonDTO getLesson() {
+    public Lesson getLesson() {
         return lesson;
     }
 
-    public void setLesson(LessonDTO lesson) {
+    public void setLesson(Lesson lesson) {
         this.lesson = lesson;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id:" + id +
+                ", question:'" + this.text + '\'' +
+                '}';
     }
 }

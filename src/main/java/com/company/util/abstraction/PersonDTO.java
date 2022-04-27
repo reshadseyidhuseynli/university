@@ -2,7 +2,7 @@ package com.company.util.abstraction;
 
 import java.time.LocalDate;
 
-public class PersonDTO extends IdentifierDTO{
+public class PersonDTO extends IdentifierDTO {
 
     private String surname;
     private LocalDate birthdate;

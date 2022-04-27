@@ -1,6 +1,10 @@
 package com.company.dto;
 
 import com.company.database.entity.*;
+import com.company.entity.Faculty;
+import com.company.entity.Lesson;
+import com.company.entity.Student;
+import com.company.entity.Teacher;
 import com.company.util.abstraction.IdentifierDTO;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.company.util.abstraction;
 
-import com.company.database.entity.Question;
-import com.company.database.entity.Student;
-import com.company.database.entity.Teacher;
+import com.company.entity.Question;
+import com.company.entity.Student;
+import com.company.entity.Teacher;
 import com.company.dto.*;
 
 import java.util.*;
@@ -12,7 +12,7 @@ public abstract class AbstractExam implements Exam {
     protected Teacher teacher;
     protected List<Question> questionList;
     protected List<Question> examinationPaper;
-    protected ResultPaperDTO resultDTO;
+    protected ExamResultDTO resultDTO;
     protected final Random random = new Random();
 
     protected AbstractExam(Student student, Teacher teacher) {
@@ -20,11 +20,7 @@ public abstract class AbstractExam implements Exam {
         this.teacher = teacher;
         this.questionList = teacher.getLesson().getQuestions();
         this.examinationPaper = getExaminationPaper();
-        List<QuestionDTO> questionDTOS = new ArrayList<>();
-        for (Question q : examinationPaper){
-            questionDTOS.add(new QuestionDTO(q));
-        }
-        this.resultDTO = new ResultPaperDTO(new StudentDTO(student), new TeacherDTO(teacher), new LessonDTO(teacher.getLesson()), questionDTOS);
+        this.resultDTO = new ExamResultDTO(new StudentDTO(student), new TeacherDTO(teacher), new LessonDTO(teacher.getLesson()));
     }
 
     private List<Question> getExaminationPaper(){

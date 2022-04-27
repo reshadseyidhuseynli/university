@@ -8,18 +8,18 @@ public class ResponseDTO {
 
     private ResponseDTO(){}
 
-    public static ResponseDTO createResponse(Object object){
+    public static ResponseDTO create(Object object){
         ResponseDTO response = new ResponseDTO();
         response.object = object;
         return response;
     }
-    public static ResponseDTO createResponse(Object object, String successMessage){
+    public static ResponseDTO create(Object object, String successMessage){
         ResponseDTO response = new ResponseDTO();
         response.object = object;
         response.successMessage = successMessage;
         return response;
     }
-    public static ResponseDTO createResponse(Object object, String errorMessage, Integer errorCode){
+    public static ResponseDTO create(Object object, String errorMessage, Integer errorCode){
         ResponseDTO response = new ResponseDTO();
         response.object = object;
         response.errorMessage = errorMessage;

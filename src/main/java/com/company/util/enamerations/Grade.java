@@ -6,9 +6,9 @@ public enum Grade {
 
     public static final Grade[] grades = values();
 
-    public Grade passNextYear(){
+    public Grade passNextYear(Integer year){
         if (this != Grade.GRADUATE_BACHELOR && this != Grade.GRADUATE_MASTER){
-            return grades[ordinal() + 1];
+            return grades[ordinal() + year];
         }else{
             return this;
         }
