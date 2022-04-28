@@ -2,6 +2,7 @@ package com.company.service;
 
 import com.company.dto.BookDTO;
 import com.company.entity.Book;
+import com.company.error.ServiceException;
 import com.company.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,13 +32,15 @@ public class BookService{
     }
 
     public BookDTO getById(Integer id) {
-        final Book byId = bookRepository.getById(id);
+        final Book byId = bookRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Book not found, by id: " + id));
 
         return new BookDTO(byId);
     }
 
     public BookDTO delete(Integer id) {
-        final Book byId = bookRepository.getById(id);
+        final Book byId = bookRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Book not found, by id: " + id));
         bookRepository.delete(byId);
 
         return new BookDTO(byId);

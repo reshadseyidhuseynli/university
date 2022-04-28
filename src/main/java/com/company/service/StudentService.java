@@ -56,7 +56,8 @@ public class StudentService {
     }
 
     public StudentDTO delete(Integer id) {
-        final Student byId = studentRepository.getById(id);
+        final Student byId = studentRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Student not found, by id: " + id));
         studentRepository.delete(byId);
 
         return new StudentDTO(byId);
@@ -64,7 +65,8 @@ public class StudentService {
 
 
     public StudentDTO add(Integer facultyId, String name, String surname, LocalDate birthdate) {
-        final Faculty faculty = facultyRepository.getById(facultyId);
+        final Faculty faculty = facultyRepository.findById(facultyId)
+                .orElseThrow(() -> new ServiceException("Faculty not found, by id: " + facultyId));
         Student student = new Student(faculty, name, surname, birthdate);
         studentRepository.save(student);
 
@@ -73,8 +75,10 @@ public class StudentService {
 
     public ExamResultDTO addExamResultToStudent(Integer studentId, Integer teacherId,
                                                 Integer trueAnswerCount, Integer falseAnswerCount) {
-        final Student student = studentRepository.getById(studentId);
-        final Teacher teacher = teacherRepository.getById(teacherId);
+        final Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new ServiceException("Student not found, by id: " + studentId));
+        final Teacher teacher = teacherRepository.findById(teacherId)
+                .orElseThrow(() -> new ServiceException("Teacher not found, by id: " + teacherId));
 
         ExamResult examResult = new ExamResult(student, teacher, trueAnswerCount, falseAnswerCount);
         examResultRepository.save(examResult);

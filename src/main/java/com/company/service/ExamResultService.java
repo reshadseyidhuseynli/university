@@ -2,6 +2,7 @@ package com.company.service;
 
 import com.company.dto.ExamResultDTO;
 import com.company.entity.ExamResult;
+import com.company.error.ServiceException;
 import com.company.repository.ExamResultRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +30,15 @@ public class ExamResultService {
     }
 
     public ExamResultDTO getById(Integer id) {
-        final ExamResult byId = examResultRepository.getById(id);
+        final ExamResult byId = examResultRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("ExamResult not found, by id: " + id));
 
         return new ExamResultDTO(byId);
     }
 
     public ExamResultDTO delete(Integer id) {
-        final ExamResult byId = examResultRepository.getById(id);
+        final ExamResult byId = examResultRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("ExamResult not found, by id: " + id));
         examResultRepository.delete(byId);
 
         return new ExamResultDTO(byId);

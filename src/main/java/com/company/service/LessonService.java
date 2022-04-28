@@ -4,6 +4,7 @@ import com.company.dto.LessonDTO;
 import com.company.dto.QuestionDTO;
 import com.company.entity.Lesson;
 import com.company.entity.Question;
+import com.company.error.ServiceException;
 import com.company.repository.LessonRepository;
 import com.company.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
@@ -37,13 +38,15 @@ public class LessonService {
     }
 
     public LessonDTO getById(Integer id) {
-        final Lesson byId = lessonRepository.getById(id);
+        final Lesson byId = lessonRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Lesson not found, by id: " + id));
 
         return new LessonDTO(byId);
     }
 
     public LessonDTO delete(Integer id) {
-        final Lesson byId = lessonRepository.getById(id);
+        final Lesson byId = lessonRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Lesson not found, by id: " + id));
         lessonRepository.delete(byId);
 
         return new LessonDTO(byId);
@@ -56,7 +59,8 @@ public class LessonService {
                                            String option3,
                                            String option4,
                                            Integer trueOption) {
-        final Lesson lesson = lessonRepository.getById(lessonId);
+        final Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ServiceException("Lesson not found, by id: " + lessonId));
         final Question question = new Question(text, option1, option2, option3, option4, trueOption);
         question.setLesson(lesson);
         questionRepository.save(question);

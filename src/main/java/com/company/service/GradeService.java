@@ -13,7 +13,7 @@ import java.util.Objects;
 public class GradeService {
 
     private static final Integer ONE_YEAR = 1;
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     GradeService(StudentRepository studentRepository){
         this.studentRepository = studentRepository;

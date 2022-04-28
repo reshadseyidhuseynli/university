@@ -2,6 +2,7 @@ package com.company.service;
 
 import com.company.dto.QuestionDTO;
 import com.company.entity.Question;
+import com.company.error.ServiceException;
 import com.company.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,13 +32,15 @@ public class QuestionService {
     }
 
     public QuestionDTO getById(Integer id) {
-        final Question byId = questionRepository.getById(id);
+        final Question byId = questionRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Question not found, by id: " + id));
 
         return new QuestionDTO(byId);
     }
 
     public QuestionDTO delete(Integer id) {
-        final Question byId = questionRepository.getById(id);
+        final Question byId = questionRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Question not found, by id: " + id));
         questionRepository.delete(byId);
 
         return new QuestionDTO(byId);
