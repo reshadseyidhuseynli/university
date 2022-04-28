@@ -6,6 +6,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "exam_result")
 public class ExamResult implements Serializable {
+
     @Id
     @Column(name = "id")
     private Integer id;

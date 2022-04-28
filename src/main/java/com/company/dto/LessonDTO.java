@@ -2,13 +2,14 @@ package com.company.dto;
 
 import com.company.entity.Lesson;
 import com.company.entity.Question;
-import com.company.util.abstraction.IdentifierDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LessonDTO extends IdentifierDTO {
+public class LessonDTO {
 
+    private Integer id;
+    private String name;
     private FacultyDTO faculty;
     private List<QuestionDTO> questions;
 
@@ -21,9 +22,25 @@ public class LessonDTO extends IdentifierDTO {
         this.faculty = new FacultyDTO(lesson.getFaculty());
 
         this.questions = new ArrayList<>();
-        for (Question q : lesson.getQuestions()){
+        for (Question q : lesson.getQuestions()) {
             questions.add(new QuestionDTO(q));
         }
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public FacultyDTO getFaculty() {

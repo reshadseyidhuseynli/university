@@ -1,15 +1,19 @@
 package com.company.dto;
 
+import com.company.enamerations.Grade;
 import com.company.entity.ExamResult;
 import com.company.entity.Student;
-import com.company.util.abstraction.PersonDTO;
-import com.company.util.enamerations.Grade;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDTO extends PersonDTO {
+public class StudentDTO {
 
+    private Integer id;
+    private String name;
+    private String surname;
+    private LocalDate birthdate;
     private Grade grade;
     private FacultyDTO faculty;
     private List<ExamResultDTO> examResults;
@@ -25,9 +29,41 @@ public class StudentDTO extends PersonDTO {
         this.grade = student.getGrade();
         this.faculty = new FacultyDTO(student.getFaculty());
         this.examResults = new ArrayList<>();
-        for (ExamResult er : student.getExamResults()){
+        for (ExamResult er : student.getExamResults()) {
             examResults.add(new ExamResultDTO(er));
         }
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate) {
+        this.birthdate = birthdate;
     }
 
     public Grade getGrade() {

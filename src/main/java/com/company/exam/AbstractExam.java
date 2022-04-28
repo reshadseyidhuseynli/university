@@ -1,4 +1,4 @@
-package com.company.util.abstraction;
+package com.company.exam;
 
 import com.company.entity.Question;
 import com.company.entity.Student;
@@ -24,11 +24,7 @@ public abstract class AbstractExam implements Exam {
     }
 
     private List<Question> getExaminationPaper(){
-        int questionCount;
-        if (questionList.size() < 10)
-            questionCount = questionList.size();
-        else
-            questionCount = 10;
+        int questionCount = Math.min(questionList.size(), 10);
 
         Set<Integer> randomNumbers = new HashSet<>();
         do {

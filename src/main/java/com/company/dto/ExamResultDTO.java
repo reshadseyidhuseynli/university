@@ -2,8 +2,6 @@ package com.company.dto;
 
 import com.company.entity.ExamResult;
 
-import java.util.List;
-
 public class ExamResultDTO {
     private Integer id;
     private StudentDTO student;

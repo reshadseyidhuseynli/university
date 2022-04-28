@@ -1,9 +1,8 @@
-package com.company.department;
+package com.company.exam;
 
 import com.company.entity.Student;
 import com.company.entity.Teacher;
 import com.company.dto.ExamResultDTO;
-import com.company.util.abstraction.AbstractExam;
 import com.company.entity.Question;
 
 public class ExamRoom extends AbstractExam {

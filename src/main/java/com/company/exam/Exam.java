@@ -1,4 +1,4 @@
-package com.company.util.abstraction;
+package com.company.exam;
 
 import com.company.entity.Question;
 import com.company.dto.ExamResultDTO;

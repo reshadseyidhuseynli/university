@@ -1,18 +1,23 @@
 package com.company.entity;
 
-import com.company.util.abstraction.IdentifierEntity;
-import com.company.util.enamerations.AcademicRank;
+import com.company.enamerations.AcademicRank;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "faculty")
-public class Faculty extends IdentifierEntity implements Serializable {
+public class Faculty implements Serializable {
+
+    @Id
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "name")
+    private String name;
     @JoinColumn(name = "head_id", referencedColumnName = "id")
     @OneToOne
     private Teacher head;
-
     @OneToMany(mappedBy = "faculty")
     private List<Lesson> lessons;
     @OneToMany(mappedBy = "faculty")
@@ -25,7 +30,23 @@ public class Faculty extends IdentifierEntity implements Serializable {
     }
 
     public Faculty(String name) {
-        super(name);
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Teacher getHead() {

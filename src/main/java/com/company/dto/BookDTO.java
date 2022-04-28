@@ -1,11 +1,12 @@
 package com.company.dto;
 
+import com.company.enamerations.BookType;
 import com.company.entity.Book;
-import com.company.util.abstraction.IdentifierDTO;
-import com.company.util.enamerations.BookType;
 
-public class BookDTO extends IdentifierDTO {
+public class BookDTO {
 
+    private Integer id;
+    private String name;
     private AuthorDTO author;
     private BookType type;
     private Integer page;
@@ -17,6 +18,22 @@ public class BookDTO extends IdentifierDTO {
     public BookDTO(Book book) {
         setId(book.getId());
         setName(book.getName());
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public AuthorDTO getAuthor() {

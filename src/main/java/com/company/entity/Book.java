@@ -1,14 +1,20 @@
 package com.company.entity;
 
-import com.company.util.abstraction.IdentifierEntity;
-import com.company.util.enamerations.BookType;
+import com.company.enamerations.BookType;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "book")
-public class Book extends IdentifierEntity implements Serializable {
+public class Book implements Serializable {
+
+    @Id
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "name")
+    private String name;
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     @ManyToOne
     private Author author;
@@ -23,9 +29,25 @@ public class Book extends IdentifierEntity implements Serializable {
     }
 
     public Book(String name, Author author, Integer page) {
-        super(name);
+        this.name = name;
         this.author = author;
         this.page = page;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Author getAuthor() {

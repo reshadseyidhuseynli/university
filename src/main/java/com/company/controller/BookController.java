@@ -12,29 +12,29 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    private BookService service;
+    private final BookService bookService;
 
-    BookController(BookService service) {
-        this.service = service;
+    BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping
     public ResponseEntity<ResponseDTO> getAll() {
-        List<BookDTO> bookDTOS = service.getAll();
+        List<BookDTO> bookDTOS = bookService.getAll();
 
         return ResponseEntity.ok(ResponseDTO.create(bookDTOS));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        BookDTO byId = service.getById(id);
+        BookDTO byId = bookService.getById(id);
 
         return ResponseEntity.ok(ResponseDTO.create(byId));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        BookDTO bookDTO = service.delete(id);
+        BookDTO bookDTO = bookService.delete(id);
 
         return ResponseEntity.ok(ResponseDTO.create(bookDTO, "The Book successfully deleted"));
     }

@@ -1,15 +1,15 @@
 package com.company.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "join_teacher_student")
-public class JoinTeacherStudent {
+public class JoinTeacherStudent implements Serializable {
 
     @Id
     @Column(name = "id")
     private Integer id;
-
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ManyToOne
     private Teacher teacher;
@@ -17,7 +17,7 @@ public class JoinTeacherStudent {
     @ManyToOne
     private Student student;
 
-    public JoinTeacherStudent() {
+    protected JoinTeacherStudent() {
     }
 
     public Integer getId() {

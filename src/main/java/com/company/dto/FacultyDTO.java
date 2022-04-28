@@ -1,16 +1,17 @@
 package com.company.dto;
 
-import com.company.database.entity.*;
 import com.company.entity.Faculty;
 import com.company.entity.Lesson;
 import com.company.entity.Student;
 import com.company.entity.Teacher;
-import com.company.util.abstraction.IdentifierDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacultyDTO extends IdentifierDTO {
+public class FacultyDTO {
 
+    private Integer id;
+    private String name;
     private TeacherDTO head;
     private List<LessonDTO> lessons;
     private List<TeacherDTO> teachers;
@@ -26,19 +27,35 @@ public class FacultyDTO extends IdentifierDTO {
 
         this.lessons = new ArrayList<>();
         List<Lesson> lessonList = faculty.getLessons();
-        for (Lesson l : lessonList){
+        for (Lesson l : lessonList) {
             lessons.add(new LessonDTO(l));
         }
 
         this.teachers = new ArrayList<>();
-        for (Teacher t : faculty.getTeachers()){
+        for (Teacher t : faculty.getTeachers()) {
             teachers.add(new TeacherDTO(t));
         }
 
         this.students = new ArrayList<>();
-        for (Student s : faculty.getStudents()){
+        for (Student s : faculty.getStudents()) {
             students.add(new StudentDTO(s));
         }
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public TeacherDTO getHead() {

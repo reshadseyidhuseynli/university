@@ -1,4 +1,4 @@
-package com.company.util.enamerations;
+package com.company.enamerations;
 
 public enum AcademicRank {
     INSTRUCTOR(1), ASSISTANT_PROFESSOR(2), ASSOCIATE_PROFESSOR(3), PROFESSOR(4);
