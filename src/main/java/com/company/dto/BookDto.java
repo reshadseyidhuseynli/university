@@ -1,24 +1,15 @@
 package com.company.dto;
 
-import com.company.enamerations.BookType;
-import com.company.entity.Book;
+import com.company.model.BookType;
 
-public class BookDTO {
+public class BookDto {
 
     private Integer id;
     private String name;
-    private AuthorDTO author;
+    private AuthorDto author;
     private BookType type;
     private Integer page;
     private boolean hardCover;
-
-    public BookDTO() {
-    }
-
-    public BookDTO(Book book) {
-        setId(book.getId());
-        setName(book.getName());
-    }
 
     public Integer getId() {
         return id;
@@ -36,11 +27,11 @@ public class BookDTO {
         this.name = name;
     }
 
-    public AuthorDTO getAuthor() {
+    public AuthorDto getAuthor() {
         return author;
     }
 
-    public void setAuthor(AuthorDTO author) {
+    public void setAuthor(AuthorDto author) {
         this.author = author;
     }
 
@@ -67,4 +58,5 @@ public class BookDTO {
     public void setHardCover(boolean hardCover) {
         this.hardCover = hardCover;
     }
+
 }

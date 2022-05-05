@@ -1,46 +1,48 @@
 package com.company.service;
 
-import com.company.dto.ExamResultDTO;
+import com.company.dto.ExamResultDto;
 import com.company.entity.ExamResult;
 import com.company.error.ServiceException;
+import com.company.mapper.ExamResultMapper;
 import com.company.repository.ExamResultRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ExamResultService {
 
     private final ExamResultRepository examResultRepository;
+    private final ExamResultMapper examResultMapper;
 
-    ExamResultService(ExamResultRepository examResultRepository) {
+    ExamResultService(ExamResultRepository examResultRepository,
+                      ExamResultMapper examResultMapper) {
+
         this.examResultRepository = examResultRepository;
+        this.examResultMapper = examResultMapper;
+
     }
 
-    public List<ExamResultDTO> getAll() {
-        final List<ExamResult> all = examResultRepository.findAll();
+    public List<ExamResultDto> getAll() {
 
-        List<ExamResultDTO> examResultDTOS = new ArrayList<>();
-        for (ExamResult examResult : all) {
-            examResultDTOS.add(new ExamResultDTO(examResult));
-        }
-
-        return examResultDTOS;
+        return examResultMapper.toExamResultDtoList(examResultRepository.findAll());
     }
 
-    public ExamResultDTO getById(Integer id) {
-        final ExamResult byId = examResultRepository.findById(id)
+    public ExamResultDto getById(Integer id) {
+
+        return examResultMapper.toExamResultDto(examResultRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("ExamResult not found, by id: " + id)));
+    }
+
+    public ExamResultDto delete(Integer id) {
+
+        final ExamResult examResult = examResultRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("ExamResult not found, by id: " + id));
 
-        return new ExamResultDTO(byId);
+        examResultRepository.delete(examResult);
+
+        return examResultMapper.toExamResultDto(examResult);
+
     }
 
-    public ExamResultDTO delete(Integer id) {
-        final ExamResult byId = examResultRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("ExamResult not found, by id: " + id));
-        examResultRepository.delete(byId);
-
-        return new ExamResultDTO(byId);
-    }
 }

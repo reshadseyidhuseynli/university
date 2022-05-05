@@ -26,6 +26,7 @@ public class Lesson implements Serializable {
     }
 
     public Lesson(String name, Faculty faculty) {
+
         this.name = name;
         this.faculty = faculty;
     }

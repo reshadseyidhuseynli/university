@@ -1,48 +1,50 @@
 package com.company.service;
 
-import com.company.dto.BookDTO;
+import com.company.dto.BookDto;
 import com.company.entity.Book;
 import com.company.error.ServiceException;
+import com.company.mapper.BookMapper;
 import com.company.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
-public class BookService{
+public class BookService {
 
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
-    BookService(BookRepository bookRepository) {
+    BookService(BookRepository bookRepository,
+                BookMapper bookMapper) {
+
         this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
+
     }
 
-    public List<BookDTO> getAll() {
-        final List<Book> all = bookRepository.findAll();
+    public List<BookDto> getAll() {
 
-        List<BookDTO> bookDTOS = new ArrayList<>();
-        for (Book book : all) {
-            bookDTOS.add(new BookDTO(book));
-        }
-
-        return bookDTOS;
+        return bookMapper.toBookDtoList(bookRepository.findAll());
     }
 
-    public BookDTO getById(Integer id) {
-        final Book byId = bookRepository.findById(id)
+    public BookDto getById(Integer id) {
+
+        return bookMapper.toBookDto(bookRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("Book not found, by id: " + id)));
+    }
+
+    public BookDto delete(Integer id) {
+
+        final Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("Book not found, by id: " + id));
 
-        return new BookDTO(byId);
+        bookRepository.delete(book);
+
+        return bookMapper.toBookDto(book);
+
     }
 
-    public BookDTO delete(Integer id) {
-        final Book byId = bookRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Book not found, by id: " + id));
-        bookRepository.delete(byId);
-
-        return new BookDTO(byId);
-    }
 }

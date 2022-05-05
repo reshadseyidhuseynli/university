@@ -1,38 +1,19 @@
 package com.company.dto;
 
-import com.company.enamerations.Grade;
-import com.company.entity.ExamResult;
-import com.company.entity.Student;
+import com.company.model.Grade;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDTO {
+public class StudentDto {
 
     private Integer id;
     private String name;
     private String surname;
     private LocalDate birthdate;
     private Grade grade;
-    private FacultyDTO faculty;
-    private List<ExamResultDTO> examResults;
-
-    public StudentDTO() {
-    }
-
-    public StudentDTO(Student student) {
-        setId(student.getId());
-        setName(student.getName());
-        setSurname(student.getSurname());
-        setBirthdate(student.getBirthdate());
-        this.grade = student.getGrade();
-        this.faculty = new FacultyDTO(student.getFaculty());
-        this.examResults = new ArrayList<>();
-        for (ExamResult er : student.getExamResults()) {
-            examResults.add(new ExamResultDTO(er));
-        }
-    }
+    private FacultyDto faculty;
+    private List<ExamResultDto> examResults;
 
     public Integer getId() {
         return id;
@@ -74,19 +55,20 @@ public class StudentDTO {
         this.grade = grade;
     }
 
-    public FacultyDTO getFaculty() {
+    public FacultyDto getFaculty() {
         return faculty;
     }
 
-    public void setFaculty(FacultyDTO faculty) {
+    public void setFaculty(FacultyDto faculty) {
         this.faculty = faculty;
     }
 
-    public List<ExamResultDTO> getExamResults() {
+    public List<ExamResultDto> getExamResults() {
         return examResults;
     }
 
-    public void setExamResults(List<ExamResultDTO> examResults) {
+    public void setExamResults(List<ExamResultDto> examResults) {
         this.examResults = examResults;
     }
+
 }

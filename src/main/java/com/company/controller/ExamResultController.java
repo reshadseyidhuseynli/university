@@ -1,7 +1,6 @@
 package com.company.controller;
 
-import com.company.dto.ExamResultDTO;
-import com.company.dto.ResponseDTO;
+import com.company.dto.ExamResultDto;
 import com.company.service.ExamResultService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +18,20 @@ public class ExamResultController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAll() {
-        final List<ExamResultDTO> all = examResultService.getAll();
+    public ResponseEntity<List<ExamResultDto>> getAll() {
 
-        return ResponseEntity.ok(ResponseDTO.create(all));
+        return ResponseEntity.ok(examResultService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        final ExamResultDTO byId = examResultService.getById(id);
+    public ResponseEntity<ExamResultDto> getById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(byId));
+        return ResponseEntity.ok(examResultService.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        final ExamResultDTO examResultDTO = examResultService.delete(id);
+    public ResponseEntity<ExamResultDto> delete(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(examResultDTO, "The Result successfully deleted"));
+        return ResponseEntity.ok(examResultService.delete(id));
     }
 }

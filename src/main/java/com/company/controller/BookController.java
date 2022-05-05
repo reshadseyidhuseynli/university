@@ -1,7 +1,6 @@
 package com.company.controller;
 
-import com.company.dto.BookDTO;
-import com.company.dto.ResponseDTO;
+import com.company.dto.BookDto;
 import com.company.service.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +18,20 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAll() {
-        List<BookDTO> bookDTOS = bookService.getAll();
+    public ResponseEntity<List<BookDto>> getAll() {
 
-        return ResponseEntity.ok(ResponseDTO.create(bookDTOS));
+        return ResponseEntity.ok(bookService.getAll());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        BookDTO byId = bookService.getById(id);
+    public ResponseEntity<BookDto> getById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(byId));
+        return ResponseEntity.ok(bookService.getById(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        BookDTO bookDTO = bookService.delete(id);
+    public ResponseEntity<BookDto> delete(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(bookDTO, "The Book successfully deleted"));
+        return ResponseEntity.ok(bookService.delete(id));
     }
 }

@@ -1,6 +1,9 @@
 package com.company.controller;
 
-import com.company.dto.*;
+import com.company.dto.FacultyDto;
+import com.company.dto.LessonDto;
+import com.company.dto.StudentDto;
+import com.company.dto.TeacherDto;
 import com.company.service.FacultyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,86 +22,75 @@ public class FacultyController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAll() {
-        final List<FacultyDTO> all = facultyService.getAll();
+    public ResponseEntity<List<FacultyDto>> getAll() {
 
-        return ResponseEntity.ok(ResponseDTO.create(all));
+        return ResponseEntity.ok(facultyService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        final FacultyDTO byId = facultyService.getById(id);
+    public ResponseEntity<FacultyDto> getById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(byId));
+        return ResponseEntity.ok(facultyService.getById(id));
     }
 
     @GetMapping("/{id}/head")
-    public ResponseEntity<ResponseDTO> getFacultyHead(@PathVariable("id") Integer id) {
-        final TeacherDTO head = facultyService.getById(id).getHead();
+    public ResponseEntity<TeacherDto> getFacultyHead(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(head));
+        return ResponseEntity.ok(facultyService.getById(id).getHead());
     }
 
     @GetMapping("/{id}/lessons")
-    public ResponseEntity<ResponseDTO> getFacultyLessons(@PathVariable("id") Integer id) {
-        final List<LessonDTO> lessons = facultyService.getById(id).getLessons();
+    public ResponseEntity<List<LessonDto>> getFacultyLessons(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(lessons));
+        return ResponseEntity.ok(facultyService.getById(id).getLessons());
     }
 
     @GetMapping("/{id}/teachers")
-    public ResponseEntity<ResponseDTO> getFacultyTeachers(@PathVariable("id") Integer id) {
-        final List<TeacherDTO> teachers = facultyService.getById(id).getTeachers();
+    public ResponseEntity<List<TeacherDto>> getFacultyTeachers(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(teachers));
+        return ResponseEntity.ok(facultyService.getById(id).getTeachers());
     }
 
     @GetMapping("/{id}/students")
-    public ResponseEntity<ResponseDTO> getFacultyStudents(@PathVariable("id") Integer id) {
-        final List<StudentDTO> students = facultyService.getById(id).getStudents();
+    public ResponseEntity<List<StudentDto>> getFacultyStudents(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(students));
+        return ResponseEntity.ok(facultyService.getById(id).getStudents());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        final FacultyDTO facultyDTO = facultyService.delete(id);
+    public ResponseEntity<FacultyDto> delete(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(facultyDTO, "The faculty successfully deleted"));
+        return ResponseEntity.ok(facultyService.delete(id));
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> add(@RequestParam(value = "name") String name) {
-        final FacultyDTO facultyDTO = facultyService.add(name);
+    public ResponseEntity<FacultyDto> add(@RequestParam(value = "name") String name) {
 
-        return ResponseEntity.ok(ResponseDTO.create(facultyDTO,"The faculty successfully added"));
+        return ResponseEntity.ok(facultyService.add(name));
     }
 
     @PostMapping("/{id}/add+lesson")
-    public ResponseEntity<ResponseDTO> addLesson(@PathVariable("id") Integer facultyId,
-                                                 @RequestParam(value = "name") String name) {
-        final LessonDTO lessonDTO = facultyService.addLessonToFaculty(facultyId, name);
+    public ResponseEntity<LessonDto> addLesson(@PathVariable("id") Integer facultyId,
+                                               @RequestParam(value = "name") String name) {
 
-        return ResponseEntity.ok(ResponseDTO.create(lessonDTO, "The lesson successfully added"));
+        return ResponseEntity.ok(facultyService.addLessonToFaculty(facultyId, name));
     }
 
     @PostMapping("/{id}/add+teacher")
-    public ResponseEntity<ResponseDTO> addTeacher(@PathVariable("id") Integer facultyId,
-                                                  @RequestParam(value = "name") String name,
-                                                  @RequestParam(value = "surname") String surname,
-                                                  @RequestParam(value = "birthdate") LocalDate birthdate) {
-        final TeacherDTO teacherDTO = facultyService.addTeacherToFaculty(facultyId, name, surname, birthdate);
+    public ResponseEntity<TeacherDto> addTeacher(@PathVariable("id") Integer facultyId,
+                                                 @RequestParam(value = "name") String name,
+                                                 @RequestParam(value = "surname") String surname,
+                                                 @RequestParam(value = "birthdate") LocalDate birthdate) {
 
-        return ResponseEntity.ok(ResponseDTO.create(teacherDTO, "The teacher successfully added"));
+        return ResponseEntity.ok(facultyService.addTeacherToFaculty(facultyId, name, surname, birthdate));
     }
 
     @PostMapping("/{id}/add+student")
-    public ResponseEntity<ResponseDTO> addStudent(@PathVariable("id") Integer facultyId,
-                                                  @RequestParam(value = "name") String name,
-                                                  @RequestParam(value = "surname") String surname,
-                                                  @RequestParam(value = "birthdate") LocalDate birthdate) {
-        final StudentDTO studentDTO = facultyService.addStudentToFaculty(facultyId, name, surname, birthdate);
+    public ResponseEntity<StudentDto> addStudent(@PathVariable("id") Integer facultyId,
+                                                 @RequestParam(value = "name") String name,
+                                                 @RequestParam(value = "surname") String surname,
+                                                 @RequestParam(value = "birthdate") LocalDate birthdate) {
 
-        return ResponseEntity.ok(ResponseDTO.create(studentDTO, "The student successfully added"));
+        return ResponseEntity.ok(facultyService.addStudentToFaculty(facultyId, name, surname, birthdate));
     }
 }

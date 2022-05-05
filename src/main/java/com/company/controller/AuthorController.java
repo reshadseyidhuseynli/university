@@ -1,8 +1,7 @@
 package com.company.controller;
 
-import com.company.dto.AuthorDTO;
-import com.company.dto.BookDTO;
-import com.company.dto.ResponseDTO;
+import com.company.dto.AuthorDto;
+import com.company.dto.BookDto;
 import com.company.service.AuthorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,46 +19,40 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAllAuthors() {
-        final List<AuthorDTO> all = authorService.getAll();
+    public ResponseEntity<List<AuthorDto>> getAllAuthors() {
 
-        return ResponseEntity.ok(ResponseDTO.create(all));
+        return ResponseEntity.ok(authorService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getAuthorById(@PathVariable("id") Integer id) {
-        final AuthorDTO byId = authorService.getById(id);
+    public ResponseEntity<AuthorDto> getAuthorById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(byId));
+        return ResponseEntity.ok(authorService.getById(id));
     }
 
     @GetMapping("{id}/books")
-    public ResponseEntity<ResponseDTO> getAuthorBooks(@PathVariable("id") Integer id) {
-        final List<BookDTO> bookDTOS = authorService.getById(id).getBooks();
+    public ResponseEntity<List<BookDto>> getAuthorBooks(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(bookDTOS));
+        return ResponseEntity.ok(authorService.getById(id).getBooks());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deleteAuthor(@PathVariable("id") Integer id) {
-        final AuthorDTO authorDTO = authorService.delete(id);
+    public ResponseEntity<AuthorDto> deleteAuthor(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(authorDTO, "The author successfully deleted"));
+        return ResponseEntity.ok(authorService.delete(id));
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> addAuthor(@RequestParam(value = "name") String name) {
-        final AuthorDTO authorDTO = authorService.add(name);
+    public ResponseEntity<AuthorDto> addAuthor(@RequestParam(value = "name") String name) {
 
-        return ResponseEntity.ok(ResponseDTO.create(authorDTO, "The author successfully added"));
+        return ResponseEntity.ok(authorService.add(name));
     }
 
     @PostMapping("{id}/add+book")
-    public ResponseEntity<ResponseDTO> addBook(@PathVariable("id") Integer id,
+    public ResponseEntity<BookDto> addBook(@PathVariable("id") Integer id,
                                                @RequestParam(value = "name") String name,
                                                @RequestParam(value = "page") Integer page) {
-        final BookDTO bookDTO = authorService.addBookToAuthor(id, name, page);
 
-        return ResponseEntity.ok(ResponseDTO.create(bookDTO, "The Book successfully added"));
+        return ResponseEntity.ok(authorService.addBookToAuthor(id, name, page));
     }
 }

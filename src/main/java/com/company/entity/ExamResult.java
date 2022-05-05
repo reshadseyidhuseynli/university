@@ -28,6 +28,7 @@ public class ExamResult implements Serializable {
     }
 
     public ExamResult(Student student, Teacher teacher, Integer trueAnswerCount, Integer falseAnswerCount){
+        
         this.student = student;
         this.teacher = teacher;
         this.lesson = teacher.getLesson();

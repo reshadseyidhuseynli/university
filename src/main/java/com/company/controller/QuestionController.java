@@ -1,7 +1,6 @@
 package com.company.controller;
 
-import com.company.dto.QuestionDTO;
-import com.company.dto.ResponseDTO;
+import com.company.dto.QuestionDto;
 import com.company.service.QuestionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +18,21 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAll() {
-        final List<QuestionDTO> all = questionService.getAll();
+    public ResponseEntity<List<QuestionDto>> getAll() {
 
-        return ResponseEntity.ok(ResponseDTO.create(all));
+        return ResponseEntity.ok(questionService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        final QuestionDTO byId = questionService.getById(id);
+    public ResponseEntity<QuestionDto> getById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(byId));
+        return ResponseEntity.ok(questionService.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        final QuestionDTO questionDTO = questionService.delete(id);
+    public ResponseEntity<QuestionDto> delete(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(questionDTO, "The question successfully deleted"));
+        return ResponseEntity.ok(questionService.delete(id));
     }
+
 }

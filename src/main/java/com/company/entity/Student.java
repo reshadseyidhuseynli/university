@@ -1,6 +1,6 @@
 package com.company.entity;
 
-import com.company.enamerations.Grade;
+import com.company.model.Grade;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -31,6 +31,7 @@ public class Student implements Serializable {
     public Student(){
     }
     public Student(Faculty faculty, String name, String surname, LocalDate birthdate) {
+
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;

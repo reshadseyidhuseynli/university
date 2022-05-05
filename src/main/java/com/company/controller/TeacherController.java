@@ -1,8 +1,7 @@
 package com.company.controller;
 
-import com.company.dto.ResponseDTO;
-import com.company.dto.StudentDTO;
-import com.company.dto.TeacherDTO;
+import com.company.dto.StudentDto;
+import com.company.dto.TeacherDto;
 import com.company.service.TeacherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,31 +19,28 @@ public class TeacherController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAll() {
-        final List<TeacherDTO> all = teacherService.getAll();
+    public ResponseEntity<List<TeacherDto>> getAll() {
 
-        return ResponseEntity.ok(ResponseDTO.create(all));
+        return ResponseEntity.ok(teacherService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        final TeacherDTO byId = teacherService.getById(id);
+    public ResponseEntity<TeacherDto> getById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(byId));
+        return ResponseEntity.ok(teacherService.getById(id));
     }
 
     @GetMapping("/{id}/students")
-    public ResponseEntity<ResponseDTO> getTeacherStudent(@PathVariable("id") Integer id) {
-        final List<StudentDTO> students = teacherService.getById(id).getStudents();
+    public ResponseEntity<List<StudentDto>> getTeacherStudent(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(students));
+        return ResponseEntity.ok(teacherService.getById(id).getStudents());
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        final TeacherDTO teacherDTO = teacherService.delete(id);
+    public ResponseEntity<TeacherDto> delete(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(teacherDTO, "The teacher successfully deleted"));
+        return ResponseEntity.ok(teacherService.delete(id));
     }
+
 }

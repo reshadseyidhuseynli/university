@@ -1,6 +1,6 @@
 package com.company.entity;
 
-import com.company.enamerations.AcademicRank;
+import com.company.model.AcademicRank;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -32,7 +32,9 @@ public class Teacher implements Serializable {
 
     public Teacher(){
     }
+
     public Teacher(Faculty faculty, String name, String surname, LocalDate birthdate) {
+
         this.name = name;
         this.surname = surname;
         this.birthdate = birthdate;

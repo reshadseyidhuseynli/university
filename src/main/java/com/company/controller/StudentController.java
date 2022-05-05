@@ -1,8 +1,7 @@
 package com.company.controller;
 
-import com.company.dto.ExamResultDTO;
-import com.company.dto.ResponseDTO;
-import com.company.dto.StudentDTO;
+import com.company.dto.ExamResultDto;
+import com.company.dto.StudentDto;
 import com.company.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,40 +19,40 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getAll() {
-        final List<StudentDTO> all = studentService.getAll();
+    public ResponseEntity<List<StudentDto>> getAll() {
 
-        return ResponseEntity.ok(ResponseDTO.create(all));
+        return ResponseEntity.ok(studentService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getById(@PathVariable("id") Integer id) {
-        final StudentDTO byId = studentService.getById(id);
+    public ResponseEntity<StudentDto> getById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(byId));
+        return ResponseEntity.ok(studentService.getById(id));
     }
 
     @GetMapping("/{id}/results")
-    public ResponseEntity<ResponseDTO> getStudentResults(@PathVariable("id") Integer id) {
-        final List<ExamResultDTO> examResults = studentService.getById(id).getExamResults();
+    public ResponseEntity<List<ExamResultDto>> getStudentResults(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(examResults));
+        return ResponseEntity.ok(studentService.getById(id).getExamResults());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> delete(@PathVariable("id") Integer id) {
-        final StudentDTO studentDTO = studentService.delete(id);
+    public ResponseEntity<StudentDto> delete(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(ResponseDTO.create(studentDTO, "The student successfully deleted"));
+        return ResponseEntity.ok(studentService.delete(id));
     }
 
     @PostMapping("/{id}/result")
-    public ResponseEntity<ResponseDTO> add(@PathVariable("id") Integer studentId,
-                                           @RequestParam("teacherId") Integer teacherId,
-                                           @RequestParam("trueAnswerCount") Integer trueAnswerCount,
-                                           @RequestParam("falseAnswerCount") Integer falseAnswerCount) {
-        final ExamResultDTO examResultDTO = studentService.addExamResultToStudent(studentId,teacherId,trueAnswerCount, falseAnswerCount);
+    public ResponseEntity<ExamResultDto> add(@PathVariable("id") Integer studentId,
+                                             @RequestParam("teacherId") Integer teacherId,
+                                             @RequestParam("trueAnswerCount") Integer trueAnswerCount,
+                                             @RequestParam("falseAnswerCount") Integer falseAnswerCount) {
 
-        return ResponseEntity.ok(ResponseDTO.create(examResultDTO, "The result successfully added"));
+        return ResponseEntity.ok(studentService.addExamResultToStudent(
+                studentId,
+                teacherId,
+                trueAnswerCount,
+                falseAnswerCount));
     }
+
 }

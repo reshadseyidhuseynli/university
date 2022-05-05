@@ -1,8 +1,6 @@
 package com.company.dto;
 
-import com.company.entity.Question;
-
-public class QuestionDTO {
+public class QuestionDto {
 
     private Integer id;
     private String text;
@@ -11,21 +9,7 @@ public class QuestionDTO {
     private String option3;
     private String option4;
     private Integer trueOption;
-    private LessonDTO lesson;
-
-    public QuestionDTO() {
-    }
-
-    public QuestionDTO(Question question) {
-        this.id = question.getId();
-        this.text = question.getText();
-        this.option1 = question.getOption1();
-        this.option2 = question.getOption2();
-        this.option3 = question.getOption3();
-        this.option4 = question.getOption4();
-        this.trueOption = question.getTrueOption();
-        this.lesson = new LessonDTO(question.getLesson());
-    }
+    private LessonDto lesson;
 
     public Integer getId() {
         return id;
@@ -83,11 +67,12 @@ public class QuestionDTO {
         this.trueOption = trueOption;
     }
 
-    public LessonDTO getLesson() {
+    public LessonDto getLesson() {
         return lesson;
     }
 
-    public void setLesson(LessonDTO lesson) {
+    public void setLesson(LessonDto lesson) {
         this.lesson = lesson;
     }
+
 }

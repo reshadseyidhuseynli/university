@@ -1,6 +1,6 @@
 package com.company.entity;
 
-import com.company.enamerations.BookType;
+import com.company.model.BookType;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,6 +29,7 @@ public class Book implements Serializable {
     }
 
     public Book(String name, Author author, Integer page) {
+
         this.name = name;
         this.author = author;
         this.page = page;

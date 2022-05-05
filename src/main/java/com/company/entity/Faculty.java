@@ -1,6 +1,6 @@
 package com.company.entity;
 
-import com.company.enamerations.AcademicRank;
+import com.company.model.AcademicRank;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +30,7 @@ public class Faculty implements Serializable {
     }
 
     public Faculty(String name) {
+
         this.name = name;
     }
 
