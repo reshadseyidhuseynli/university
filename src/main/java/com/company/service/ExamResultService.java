@@ -1,7 +1,8 @@
 package com.company.service;
 
-import com.company.dto.ExamResultDto;
+import com.company.dto.response.ExamResultResponseDto;
 import com.company.entity.ExamResult;
+import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
 import com.company.mapper.ExamResultMapper;
 import com.company.repository.ExamResultRepository;
@@ -23,21 +24,23 @@ public class ExamResultService {
 
     }
 
-    public List<ExamResultDto> getAll() {
-
+    public List<ExamResultResponseDto> getAll() {
         return examResultMapper.toExamResultDtoList(examResultRepository.findAll());
     }
 
-    public ExamResultDto getById(Integer id) {
-
+    public ExamResultResponseDto getById(Integer id) {
         return examResultMapper.toExamResultDto(examResultRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("ExamResult not found, by id: " + id)));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.EXAM_RESULT_NOT_FOUND,
+                        "ExamResult not found, by id: " + id)));
     }
 
-    public ExamResultDto delete(Integer id) {
+    public ExamResultResponseDto delete(Integer id) {
 
         final ExamResult examResult = examResultRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("ExamResult not found, by id: " + id));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.EXAM_RESULT_NOT_FOUND,
+                        "ExamResult not found, by id: " + id));
 
         examResultRepository.delete(examResult);
 

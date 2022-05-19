@@ -1,9 +1,12 @@
 package com.company.service;
 
-import com.company.dto.AuthorDto;
-import com.company.dto.BookDto;
+import com.company.dto.response.AuthorResponseDto;
+import com.company.dto.response.BookResponseDto;
+import com.company.dto.request.AuthorRequestDto;
+import com.company.dto.request.BookRequestDto;
 import com.company.entity.Author;
 import com.company.entity.Book;
+import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
 import com.company.mapper.AuthorMapper;
 import com.company.mapper.BookMapper;
@@ -35,21 +38,24 @@ public class AuthorService {
 
     }
 
-    public List<AuthorDto> getAll() {
-
+    public List<AuthorResponseDto> getAll() {
         return authorMapper.toAuthorDtoList(authorRepository.findAll());
     }
 
-    public AuthorDto getById(Integer id) {
-
-        return authorMapper.toAuthorDto(authorRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Author not found, by id: " + id)));
+    public AuthorResponseDto getById(Integer id) {
+        return authorMapper.toAuthorDto(
+                authorRepository.findById(id)
+                        .orElseThrow(() -> new ServiceException(
+                                ErrorCode.AUTHOR_NOT_FOUND,
+                                "Author not found, by id: " + id)));
     }
 
-    public AuthorDto delete(Integer id) {
+    public AuthorResponseDto delete(Integer id) {
 
         final Author author = authorRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Author not found, by id: " + id));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.AUTHOR_NOT_FOUND,
+                        "Author not found, by id: " + id));
 
         authorRepository.delete(author);
 
@@ -57,17 +63,20 @@ public class AuthorService {
 
     }
 
-    public AuthorDto add(String name) {
-
-        return authorMapper.toAuthorDto(authorRepository.save(new Author(name)));
+    public AuthorResponseDto add(AuthorRequestDto requestDto) {
+        return authorMapper.toAuthorDto(
+                authorRepository.save(new Author(requestDto.getName())));
     }
 
-    public BookDto addBookToAuthor(Integer authorId, String name, Integer page) {
+    public BookResponseDto addBookToAuthor(Integer authorId, BookRequestDto requestDto) {
 
         final Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new ServiceException("Author not found, by id: " + authorId));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.AUTHOR_NOT_FOUND,
+                        "Author not found, by id: " + authorId));
 
-        final Book book = bookRepository.save(new Book(name, author, page));
+        final Book book = bookRepository.save(
+                new Book(requestDto.getName(), author, requestDto.getPage()));
 
         return bookMapper.toBookDto(book);
 

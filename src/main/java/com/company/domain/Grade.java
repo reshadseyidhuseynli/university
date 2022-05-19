@@ -1,6 +1,6 @@
-package com.company.model;
+package com.company.domain;
 
-import com.company.error.EnumException;
+import com.company.error.MissingItemException;
 
 public enum Grade {
 
@@ -17,7 +17,6 @@ public enum Grade {
     private final Grade[] grades = values();
 
     Grade(Integer value){
-
         this.value = value;
     }
 
@@ -39,7 +38,7 @@ public enum Grade {
             return Grade.MASTER_II;
         else if (value == 8)
             return Grade.GRADUATE_MASTER;
-        else throw new EnumException("Not found grade by this value: " + value);
+        else throw new MissingItemException("Not found grade by this value: " + value);
 
     }
 

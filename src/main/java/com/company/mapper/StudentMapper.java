@@ -1,6 +1,6 @@
 package com.company.mapper;
 
-import com.company.dto.StudentDto;
+import com.company.dto.response.StudentResponseDto;
 import com.company.entity.Student;
 import com.company.mapper.qualifier.EnumMapper;
 import org.mapstruct.Mapper;
@@ -11,8 +11,8 @@ import java.util.List;
         uses = EnumMapper.class)
 public interface StudentMapper {
 
-    StudentDto toStudentDto(Student student);
+    StudentResponseDto toStudentDto(Student student);
 
-    List<StudentDto> toStudentDtoList(List<Student> studentList);
+    List<StudentResponseDto> toStudentDtoList(List<Student> studentList);
 
 }

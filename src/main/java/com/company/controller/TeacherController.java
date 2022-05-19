@@ -1,7 +1,7 @@
 package com.company.controller;
 
-import com.company.dto.StudentDto;
-import com.company.dto.TeacherDto;
+import com.company.dto.response.StudentResponseDto;
+import com.company.dto.response.TeacherResponseDto;
 import com.company.service.TeacherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,27 +19,23 @@ public class TeacherController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TeacherDto>> getAll() {
-
+    public ResponseEntity<List<TeacherResponseDto>> getAll() {
         return ResponseEntity.ok(teacherService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TeacherDto> getById(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<TeacherResponseDto> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(teacherService.getById(id));
     }
 
     @GetMapping("/{id}/students")
-    public ResponseEntity<List<StudentDto>> getTeacherStudent(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<List<StudentResponseDto>> getTeacherStudent(@PathVariable Integer id) {
         return ResponseEntity.ok(teacherService.getById(id).getStudents());
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TeacherDto> delete(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<TeacherResponseDto> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(teacherService.delete(id));
     }
 

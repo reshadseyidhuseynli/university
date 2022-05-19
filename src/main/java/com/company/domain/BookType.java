@@ -1,6 +1,6 @@
-package com.company.model;
+package com.company.domain;
 
-import com.company.error.EnumException;
+import com.company.error.MissingItemException;
 
 public enum BookType {
 
@@ -23,7 +23,7 @@ public enum BookType {
             return BookType.DRAMA;
         else if(value == 3)
             return BookType.HISTORY;
-        else throw new EnumException("Not found book type by this value: " + value);
+        else throw new MissingItemException("Not found book type by this value: " + value);
 
     }
 

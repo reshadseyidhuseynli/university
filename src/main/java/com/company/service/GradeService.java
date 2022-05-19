@@ -16,7 +16,6 @@ public class GradeService {
     private final StudentRepository studentRepository;
 
     GradeService(StudentRepository studentRepository) {
-
         this.studentRepository = studentRepository;
     }
 

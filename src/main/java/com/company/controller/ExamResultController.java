@@ -1,6 +1,6 @@
 package com.company.controller;
 
-import com.company.dto.ExamResultDto;
+import com.company.dto.response.ExamResultResponseDto;
 import com.company.service.ExamResultService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,20 +18,17 @@ public class ExamResultController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ExamResultDto>> getAll() {
-
+    public ResponseEntity<List<ExamResultResponseDto>> getAll() {
         return ResponseEntity.ok(examResultService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExamResultDto> getById(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<ExamResultResponseDto> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(examResultService.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ExamResultDto> delete(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<ExamResultResponseDto> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(examResultService.delete(id));
     }
 }

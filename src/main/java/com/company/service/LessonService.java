@@ -1,12 +1,14 @@
 package com.company.service;
 
-import com.company.dto.LessonDto;
-import com.company.dto.QuestionDto;
+import com.company.dto.response.LessonResponseDto;
+import com.company.dto.response.QuestionWithAnswerResponseDto;
+import com.company.dto.request.QuestionRequestDto;
 import com.company.entity.Lesson;
 import com.company.entity.Question;
+import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
 import com.company.mapper.LessonMapper;
-import com.company.mapper.QuestionMapper;
+import com.company.mapper.QuestionWithAnswerMapper;
 import com.company.repository.LessonRepository;
 import com.company.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
@@ -21,34 +23,36 @@ public class LessonService {
     private final LessonRepository lessonRepository;
     private final QuestionRepository questionRepository;
     private final LessonMapper lessonMapper;
-    private final QuestionMapper questionMapper;
+    private final QuestionWithAnswerMapper questionWithAnswerMapper;
 
     LessonService(LessonRepository lessonRepository,
                   QuestionRepository questionRepository,
                   LessonMapper lessonMapper,
-                  QuestionMapper questionMapper) {
+                  QuestionWithAnswerMapper questionWithAnswerMapper) {
 
         this.lessonRepository = lessonRepository;
         this.questionRepository = questionRepository;
         this.lessonMapper = lessonMapper;
-        this.questionMapper = questionMapper;
+        this.questionWithAnswerMapper = questionWithAnswerMapper;
     }
 
-    public List<LessonDto> getAll() {
-
+    public List<LessonResponseDto> getAll() {
         return lessonMapper.toLessonDtoList(lessonRepository.findAll());
     }
 
-    public LessonDto getById(Integer id) {
-
+    public LessonResponseDto getById(Integer id) {
         return lessonMapper.toLessonDto(lessonRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Lesson not found, by id: " + id)));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.LESSON_NOT_FOUND,
+                        "Lesson not found, by id: " + id)));
     }
 
-    public LessonDto delete(Integer id) {
+    public LessonResponseDto delete(Integer id) {
 
         final Lesson lesson = lessonRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Lesson not found, by id: " + id));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.LESSON_NOT_FOUND,
+                        "Lesson not found, by id: " + id));
 
         lessonRepository.delete(lesson);
 
@@ -56,21 +60,25 @@ public class LessonService {
 
     }
 
-    public QuestionDto addQuestionToLesson(Integer lessonId,
-                                           String text,
-                                           String option1,
-                                           String option2,
-                                           String option3,
-                                           String option4,
-                                           Integer trueOption) {
+    public QuestionWithAnswerResponseDto addQuestionToLesson(Integer lessonId,
+                                                             QuestionRequestDto requestDto) {
 
         final Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new ServiceException("Lesson not found, by id: " + lessonId));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.LESSON_NOT_FOUND,
+                        "Lesson not found, by id: " + lessonId));
 
-        final Question question = new Question(text, option1, option2, option3, option4, trueOption);
+        final Question question = new Question(
+                requestDto.getText(),
+                requestDto.getOption1(),
+                requestDto.getOption2(),
+                requestDto.getOption3(),
+                requestDto.getOption4(),
+                requestDto.getTrueOption()
+        );
         question.setLesson(lesson);
 
-        return questionMapper.toQuestionDto(questionRepository.save(question));
+        return questionWithAnswerMapper.toQuestionWithAnswerDto(questionRepository.save(question));
 
     }
 

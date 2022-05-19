@@ -15,14 +15,12 @@ public class GradeController {
 
     @PutMapping("/grade")
     public void passNextYearAll() {
-
         gradeService.passNextYear();
     }
 
     @PutMapping("/{id}/grade")
     public void passNextYearAll(@PathVariable Integer id,
                                 @RequestParam(required = false) Integer year) {
-
         gradeService.passNextYearByStudentId(id, year);
     }
 }

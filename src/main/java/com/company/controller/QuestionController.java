@@ -1,6 +1,6 @@
 package com.company.controller;
 
-import com.company.dto.QuestionDto;
+import com.company.dto.response.QuestionWithAnswerResponseDto;
 import com.company.service.QuestionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,20 +18,17 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<QuestionDto>> getAll() {
-
+    public ResponseEntity<List<QuestionWithAnswerResponseDto>> getAll() {
         return ResponseEntity.ok(questionService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionDto> getById(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<QuestionWithAnswerResponseDto> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(questionService.getById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<QuestionDto> delete(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<QuestionWithAnswerResponseDto> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(questionService.delete(id));
     }
 

@@ -1,9 +1,10 @@
 package com.company.service;
 
-import com.company.dto.QuestionDto;
+import com.company.dto.response.QuestionWithAnswerResponseDto;
 import com.company.entity.Question;
+import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
-import com.company.mapper.QuestionMapper;
+import com.company.mapper.QuestionWithAnswerMapper;
 import com.company.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,34 +16,36 @@ import java.util.List;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final QuestionMapper questionMapper;
+    private final QuestionWithAnswerMapper questionWithAnswerMapper;
 
     QuestionService(QuestionRepository questionRepository,
-                    QuestionMapper questionMapper) {
+                    QuestionWithAnswerMapper questionWithAnswerMapper) {
 
         this.questionRepository = questionRepository;
-        this.questionMapper = questionMapper;
+        this.questionWithAnswerMapper = questionWithAnswerMapper;
     }
 
-    public List<QuestionDto> getAll() {
-
-        return questionMapper.toQuestionDtoList(questionRepository.findAll());
+    public List<QuestionWithAnswerResponseDto> getAll() {
+        return questionWithAnswerMapper.toQuestionWithAnswerDtoList(questionRepository.findAll());
     }
 
-    public QuestionDto getById(Integer id) {
-
-        return questionMapper.toQuestionDto(questionRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Question not found, by id: " + id)));
+    public QuestionWithAnswerResponseDto getById(Integer id) {
+        return questionWithAnswerMapper.toQuestionWithAnswerDto(questionRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.QUESTION_NOT_FOUND,
+                        "Question not found, by id: " + id)));
     }
 
-    public QuestionDto delete(Integer id) {
+    public QuestionWithAnswerResponseDto delete(Integer id) {
 
         final Question question = questionRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Question not found, by id: " + id));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.QUESTION_NOT_FOUND,
+                        "Question not found, by id: " + id));
 
         questionRepository.delete(question);
 
-        return questionMapper.toQuestionDto(question);
+        return questionWithAnswerMapper.toQuestionWithAnswerDto(question);
 
     }
 

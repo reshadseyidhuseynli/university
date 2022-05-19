@@ -1,7 +1,8 @@
 package com.company.service;
 
-import com.company.dto.BookDto;
+import com.company.dto.response.BookResponseDto;
 import com.company.entity.Book;
+import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
 import com.company.mapper.BookMapper;
 import com.company.repository.BookRepository;
@@ -25,21 +26,23 @@ public class BookService {
 
     }
 
-    public List<BookDto> getAll() {
-
+    public List<BookResponseDto> getAll() {
         return bookMapper.toBookDtoList(bookRepository.findAll());
     }
 
-    public BookDto getById(Integer id) {
-
+    public BookResponseDto getById(Integer id) {
         return bookMapper.toBookDto(bookRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Book not found, by id: " + id)));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.BOOK_NOT_FOUND,
+                        "Book not found, by id: " + id)));
     }
 
-    public BookDto delete(Integer id) {
+    public BookResponseDto delete(Integer id) {
 
         final Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Book not found, by id: " + id));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.BOOK_NOT_FOUND,
+                        "Book not found, by id: " + id));
 
         bookRepository.delete(book);
 

@@ -1,7 +1,8 @@
 package com.company.controller;
 
-import com.company.dto.LessonDto;
-import com.company.dto.QuestionDto;
+import com.company.dto.response.LessonResponseDto;
+import com.company.dto.response.QuestionWithAnswerResponseDto;
+import com.company.dto.request.QuestionRequestDto;
 import com.company.service.LessonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,48 +20,32 @@ public class LessonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LessonDto>> getAll() {
-
+    public ResponseEntity<List<LessonResponseDto>> getAll() {
         return ResponseEntity.ok(lessonService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LessonDto> getById(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<LessonResponseDto> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(lessonService.getById(id));
     }
 
     @GetMapping("/{id}/questions")
-    public ResponseEntity<List<QuestionDto>> getLessonQuestions(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<List<QuestionWithAnswerResponseDto>> getLessonQuestions(@PathVariable Integer id) {
         return ResponseEntity.ok(lessonService.getById(id).getQuestions());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<LessonDto> delete(@PathVariable("id") Integer id) {
-
+    public ResponseEntity<LessonResponseDto> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(lessonService.delete(id));
     }
 
 
-    @PostMapping("/{id}/add+question")
-    public ResponseEntity<QuestionDto> addQuestion(@PathVariable("id") Integer lessonId,
-                                                   @RequestParam(value = "text") String text,
-                                                   @RequestParam(value = "option1") String option1,
-                                                   @RequestParam(value = "option2") String option2,
-                                                   @RequestParam(value = "option3") String option3,
-                                                   @RequestParam(value = "option4") String option4,
-                                                   @RequestParam(value = "trueOption") Integer trueOption) {
-
+    @PostMapping("/{id}/question")
+    public ResponseEntity<QuestionWithAnswerResponseDto> addQuestion(@PathVariable("id") Integer lessonId,
+                                                                     @RequestBody QuestionRequestDto requestDto) {
         return ResponseEntity.ok(lessonService.addQuestionToLesson(
                 lessonId,
-                text,
-                option1,
-                option2,
-                option3,
-                option4,
-                trueOption));
-
+                requestDto));
     }
 
 }

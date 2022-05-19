@@ -1,7 +1,8 @@
 package com.company.service;
 
-import com.company.dto.TeacherDto;
+import com.company.dto.response.TeacherResponseDto;
 import com.company.entity.Teacher;
+import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
 import com.company.mapper.TeacherMapper;
 import com.company.repository.TeacherRepository;
@@ -24,21 +25,23 @@ public class TeacherService {
         this.teacherMapper = teacherMapper;
     }
 
-    public List<TeacherDto> getAll() {
-
+    public List<TeacherResponseDto> getAll() {
         return teacherMapper.toTeacherDtoList(teacherRepository.findAll());
     }
 
-    public TeacherDto getById(Integer id) {
-        
+    public TeacherResponseDto getById(Integer id) {
         return teacherMapper.toTeacherDto(teacherRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Teacher not found, by id: " + id)));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.TEACHER_NOT_FOUND,
+                        "Teacher not found, by id: " + id)));
     }
 
-    public TeacherDto delete(Integer id) {
+    public TeacherResponseDto delete(Integer id) {
 
         final Teacher teacher = teacherRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("Teacher not found, by id: " + id));
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.TEACHER_NOT_FOUND,
+                        "Teacher not found, by id: " + id));
 
         teacherRepository.delete(teacher);
 

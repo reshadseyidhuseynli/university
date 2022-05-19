@@ -1,8 +1,8 @@
 package com.company.mapper.qualifier;
 
-import com.company.model.AcademicRank;
-import com.company.model.BookType;
-import com.company.model.Grade;
+import com.company.domain.AcademicRank;
+import com.company.domain.BookType;
+import com.company.domain.Grade;
 
 public class EnumMapper {
 

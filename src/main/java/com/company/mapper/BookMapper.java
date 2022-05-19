@@ -1,6 +1,6 @@
 package com.company.mapper;
 
-import com.company.dto.BookDto;
+import com.company.dto.response.BookResponseDto;
 import com.company.entity.Book;
 import com.company.mapper.qualifier.EnumMapper;
 import org.mapstruct.Mapper;
@@ -11,8 +11,8 @@ import java.util.List;
         uses = EnumMapper.class)
 public interface BookMapper {
 
-    BookDto toBookDto(Book book);
+    BookResponseDto toBookDto(Book book);
 
-    List<BookDto> toBookDtoList(List<Book> books);
+    List<BookResponseDto> toBookDtoList(List<Book> books);
 
 }

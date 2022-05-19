@@ -1,6 +1,6 @@
-package com.company.model;
+package com.company.domain;
 
-import com.company.error.EnumException;
+import com.company.error.MissingItemException;
 
 public enum AcademicRank {
 
@@ -12,12 +12,10 @@ public enum AcademicRank {
     private final Integer value;
 
     AcademicRank(Integer value) {
-
         this.value = value;
     }
 
     public static AcademicRank getInstanceByValue(Integer value) {
-
         if (value == 1)
             return AcademicRank.INSTRUCTOR;
         else if (value == 2)
@@ -26,8 +24,7 @@ public enum AcademicRank {
             return AcademicRank.ASSISTANT_PROFESSOR;
         else if (value == 4)
             return AcademicRank.PROFESSOR;
-        else throw new EnumException("Not found academic rang by this value: " + value);
-
+        else throw new MissingItemException("Not found academic rang by this value: " + value);
     }
 
     public Integer getValue() {
