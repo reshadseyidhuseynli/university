@@ -10,6 +10,6 @@ public class LessonResponseDto {
     private Integer id;
     private String name;
     private FacultyResponseDto faculty;
-    private List<QuestionWithAnswerResponseDto> questions;
+    private List<QuestionWithoutAnswerResponseDto> questions;
 
 }

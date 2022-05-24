@@ -4,52 +4,54 @@ import com.company.error.MissingItemException;
 
 public enum Grade {
 
-    BACHELOR_I(1),
-    BACHELOR_II(2),
-    BACHELOR_III(3),
-    BACHELOR_IV(4),
-    GRADUATE_BACHELOR(5),
-    MASTER_I(6),
-    MASTER_II(7),
-    GRADUATE_MASTER(8);
+    BACHELOR_I("BACHELOR_I"),
+    BACHELOR_II("BACHELOR_II"),
+    BACHELOR_III("BACHELOR_III"),
+    BACHELOR_IV("BACHELOR_IV"),
+    GRADUATE_BACHELOR("GRADUATE_BACHELOR"),
+    MASTER_I("MASTER_I"),
+    MASTER_II("MASTER_II"),
+    GRADUATE_MASTER("GRADUATE_MASTER");
 
-    private final Integer value;
-    private final Grade[] grades = values();
+    private final String value;
 
-    Grade(Integer value){
+    Grade(String value) {
         this.value = value;
     }
 
-    public static Grade getInstanceByValue(Integer value) {
+    public static Grade getInstanceByValue(String value) {
 
-        if (value == 1)
-            return Grade.BACHELOR_I;
-        else if (value == 2)
-            return Grade.BACHELOR_II;
-        else if (value == 3)
-            return Grade.BACHELOR_III;
-        else if (value == 4)
-            return Grade.BACHELOR_IV;
-        else if (value == 5)
-            return Grade.GRADUATE_BACHELOR;
-        else if (value == 6)
-            return Grade.MASTER_I;
-        else if (value == 7)
-            return Grade.MASTER_II;
-        else if (value == 8)
-            return Grade.GRADUATE_MASTER;
-        else throw new MissingItemException("Not found grade by this value: " + value);
+        switch (value) {
+            case "BACHELOR_I":
+                return Grade.BACHELOR_I;
+            case "BACHELOR_II":
+                return Grade.BACHELOR_II;
+            case "BACHELOR_III":
+                return Grade.BACHELOR_III;
+            case "BACHELOR_IV":
+                return Grade.BACHELOR_IV;
+            case "GRADUATE_BACHELOR":
+                return Grade.GRADUATE_BACHELOR;
+            case "MASTER_I":
+                return Grade.MASTER_I;
+            case "MASTER_II":
+                return Grade.MASTER_II;
+            case "GRADUATE_MASTER":
+                return Grade.GRADUATE_MASTER;
+            default:
+                throw new MissingItemException("Not found grade by this value: " + value);
+        }
 
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 
     public Grade passNextYear(Integer year) {
 
         if (this != Grade.GRADUATE_BACHELOR && this != Grade.GRADUATE_MASTER) {
-            return grades[ordinal() + year];
+            return values()[ordinal() + year];
         } else {
             return this;
         }

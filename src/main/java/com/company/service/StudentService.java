@@ -16,6 +16,7 @@ import com.company.repository.ExamResultRepository;
 import com.company.repository.FacultyRepository;
 import com.company.repository.StudentRepository;
 import com.company.repository.TeacherRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class StudentService {
 
     private final StudentRepository studentRepository;
@@ -32,49 +34,23 @@ public class StudentService {
     private final StudentMapper studentMapper;
     private final ExamResultMapper examResultMapper;
 
-    StudentService(StudentRepository studentRepository,
-                   TeacherRepository teacherRepository,
-                   ExamResultRepository examResultRepository,
-                   FacultyRepository facultyRepository,
-                   StudentMapper studentMapper,
-                   ExamResultMapper examResultMapper) {
-
-        this.studentRepository = studentRepository;
-        this.teacherRepository = teacherRepository;
-        this.examResultRepository = examResultRepository;
-        this.facultyRepository = facultyRepository;
-        this.studentMapper = studentMapper;
-        this.examResultMapper = examResultMapper;
-    }
-
     public List<StudentResponseDto> getAll() {
         return studentMapper.toStudentDtoList(studentRepository.findAll());
     }
 
     public StudentResponseDto getById(Integer id) {
-        return studentMapper.toStudentDto(studentRepository.findById(id)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.STUDENT_NOT_FOUND,
-                        "Student not found, by id: " + id)));
+        return studentMapper.toStudentDto(findByIdIfAvailable(id));
     }
 
     public StudentResponseDto delete(Integer id) {
-
-        final Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.STUDENT_NOT_FOUND,
-                        "Student not found, by id: " + id));
-
+        final Student student = findByIdIfAvailable(id);
         studentRepository.delete(student);
 
         return studentMapper.toStudentDto(student);
-
     }
-
 
     public StudentResponseDto add(Integer facultyId,
                                   StudentRequestDto requestDto) {
-
         final Faculty faculty = facultyRepository.findById(facultyId)
                 .orElseThrow(() -> new ServiceException(
                         ErrorCode.FACULTY_NOT_FOUND,
@@ -89,16 +65,11 @@ public class StudentService {
         studentRepository.save(student);
 
         return studentMapper.toStudentDto(student);
-
     }
 
     public ExamResultResponseDto addExamResultToStudent(Integer studentId,
                                                         ExamResultRequestDto requestDto) {
-
-        final Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.STUDENT_NOT_FOUND,
-                        "Student not found, by id: " + studentId));
+        final Student student = findByIdIfAvailable(studentId);
 
         final Integer teacherId = requestDto.getTeacherId();
 
@@ -116,7 +87,13 @@ public class StudentService {
         examResultRepository.save(examResult);
 
         return examResultMapper.toExamResultDto(examResult);
+    }
 
+    private Student findByIdIfAvailable(Integer id) {
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.STUDENT_NOT_FOUND,
+                        "Student not found, by id: " + id));
     }
 
 }

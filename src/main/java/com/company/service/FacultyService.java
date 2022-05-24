@@ -22,6 +22,7 @@ import com.company.repository.FacultyRepository;
 import com.company.repository.LessonRepository;
 import com.company.repository.StudentRepository;
 import com.company.repository.TeacherRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
@@ -40,43 +42,16 @@ public class FacultyService {
     private final TeacherMapper teacherMapper;
     private final StudentMapper studentMapper;
 
-    FacultyService(FacultyRepository facultyRepository,
-                   LessonRepository lessonRepository,
-                   TeacherRepository teacherRepository,
-                   StudentRepository studentRepository,
-                   FacultyMapper facultyMapper,
-                   LessonMapper lessonMapper,
-                   TeacherMapper teacherMapper,
-                   StudentMapper studentMapper) {
-
-        this.facultyRepository = facultyRepository;
-        this.lessonRepository = lessonRepository;
-        this.teacherRepository = teacherRepository;
-        this.studentRepository = studentRepository;
-        this.facultyMapper = facultyMapper;
-        this.lessonMapper = lessonMapper;
-        this.teacherMapper = teacherMapper;
-        this.studentMapper = studentMapper;
-    }
-
     public List<FacultyResponseDto> getAll() {
         return facultyMapper.toFacultyDtoList(facultyRepository.findAll());
     }
 
     public FacultyResponseDto getById(Integer id) {
-        return facultyMapper.toFacultyDto(facultyRepository.findById(id)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.FACULTY_NOT_FOUND,
-                        "Faculty not found, by id: " + id)));
+        return facultyMapper.toFacultyDto(findByIdIfAvailable(id));
     }
 
     public FacultyResponseDto delete(Integer id) {
-
-        final Faculty faculty = facultyRepository.findById(id)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.FACULTY_NOT_FOUND,
-                        "Faculty not found, by id: " + id));
-
+        final Faculty faculty = findByIdIfAvailable(id);
         facultyRepository.delete(faculty);
 
         return facultyMapper.toFacultyDto(faculty);
@@ -88,26 +63,15 @@ public class FacultyService {
     }
 
     public LessonResponseDto addLessonToFaculty(Integer facultyId, LessonRequestDto requestDto) {
-
-        final Faculty faculty = facultyRepository.findById(facultyId)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.FACULTY_NOT_FOUND,
-                        "Faculty not found, by id: " + facultyId));
-
+        final Faculty faculty = findByIdIfAvailable(facultyId);
         final Lesson lesson = lessonRepository.save(
                 new Lesson(requestDto.getName(), faculty));
 
         return lessonMapper.toLessonDto(lesson);
-
     }
 
     public TeacherResponseDto addTeacherToFaculty(Integer facultyId, TeacherRequestDto requestDto) {
-
-        final Faculty faculty = facultyRepository.findById(facultyId)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.FACULTY_NOT_FOUND,
-                        "Faculty not found, by id: " + facultyId));
-
+        final Faculty faculty = findByIdIfAvailable(facultyId);
         final Teacher teacher = teacherRepository.save(
                 new Teacher(
                         faculty,
@@ -116,16 +80,10 @@ public class FacultyService {
                         requestDto.getBirthdate()));
 
         return teacherMapper.toTeacherDto(teacher);
-
     }
 
     public StudentResponseDto addStudentToFaculty(Integer facultyId, StudentRequestDto requestDto) {
-
-        final Faculty faculty = facultyRepository.findById(facultyId)
-                .orElseThrow(() -> new ServiceException(
-                        ErrorCode.FACULTY_NOT_FOUND,
-                        "Faculty not found, by id: " + facultyId));
-
+        final Faculty faculty = findByIdIfAvailable(facultyId);
         final Student student = studentRepository.save(
                 new Student(
                         faculty,
@@ -134,7 +92,13 @@ public class FacultyService {
                         requestDto.getBirthdate()));
 
         return studentMapper.toStudentDto(student);
+    }
 
+    private Faculty findByIdIfAvailable(Integer id){
+        return facultyRepository.findById(id)
+                .orElseThrow(() -> new ServiceException(
+                        ErrorCode.FACULTY_NOT_FOUND,
+                        "Faculty not found, by id: " + id));
     }
 
 }

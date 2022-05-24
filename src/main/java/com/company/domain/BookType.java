@@ -4,30 +4,32 @@ import com.company.error.MissingItemException;
 
 public enum BookType {
 
-    SCIENCE(1),
-    DRAMA(2),
-    HISTORY(3);
+    SCIENCE("SCIENCE"),
+    DRAMA("DRAMA"),
+    HISTORY("HISTORY");
 
-    private final Integer value;
+    private final String value;
 
-    BookType(Integer value) {
-
+    BookType(String value) {
         this.value = value;
     }
 
-    public BookType getInstanceByValue(Integer value){
+    public static BookType getInstanceByValue(String value) {
 
-        if (value == 1)
-            return BookType.SCIENCE;
-        else if (value == 2)
-            return BookType.DRAMA;
-        else if(value == 3)
-            return BookType.HISTORY;
-        else throw new MissingItemException("Not found book type by this value: " + value);
+        switch (value) {
+            case "SCIENCE":
+                return BookType.SCIENCE;
+            case "DRAMA":
+                return BookType.DRAMA;
+            case "HISTORY":
+                return BookType.HISTORY;
+            default:
+                throw new MissingItemException("Not found book type by this value: " + value);
+        }
 
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 

@@ -3,30 +3,32 @@ package com.company.mapper.qualifier;
 import com.company.domain.AcademicRank;
 import com.company.domain.BookType;
 import com.company.domain.Grade;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EnumMapper {
 
-    public AcademicRank mapToAcademicRank(Integer value) {
+    public AcademicRank mapToAcademicRank(String value) {
         return AcademicRank.getInstanceByValue(value);
     }
 
-    public BookType mapToBookType(Integer value) {
-        return BookType.DRAMA.getInstanceByValue(value);
+    public BookType mapToBookType(String value) {
+        return BookType.getInstanceByValue(value);
     }
 
-    public Grade mapToGrade(Integer value){
+    public Grade mapToGrade(String value){
         return Grade.getInstanceByValue(value);
     }
 
-    public Integer mapToValue(AcademicRank academicRank) {
+    public String mapToValue(AcademicRank academicRank) {
         return academicRank.getValue();
     }
 
-    public Integer mapToValue(BookType bookType){
+    public String mapToValue(BookType bookType){
         return bookType.getValue();
     }
 
-    public Integer mapToValue(Grade grade){
+    public String mapToValue(Grade grade){
         return grade.getValue();
     }
 
