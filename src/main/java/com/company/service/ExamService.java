@@ -17,7 +17,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class ExamService {
 
-    private final StudentService studentService;
     private final TeacherService teacherService;
     private final QuestionService questionService;
     private final Random random = new Random();
@@ -49,7 +48,6 @@ public class ExamService {
 
     public ExamResultResponseDto acceptAnswersAndGiveResult(ExamAnswerRequestDto requestDto) {
 
-        Integer studentId = requestDto.getStudentId();
         Integer teacherId = requestDto.getTeacherId();
         Integer[] questionIds = requestDto.getQuestionsId();
         Integer[] answers = requestDto.getAnswers();
@@ -62,10 +60,9 @@ public class ExamService {
 
         final int questionCountInExaminationPaper = questionIds.length;
 
-        final StudentResponseDto studentResponseDto = studentService.getById(studentId);
         final TeacherResponseDto teacherResponseDto = teacherService.getById(teacherId);
 
-        final List<QuestionWithAnswerResponseDto> questions = getQuestionListByIds(questionIds);
+        final List<QuestionResponseDto> questions = getQuestionListByIds(questionIds);
 
         int trueAnswerCount = 0;
         int falseAnswerCount = 0;
@@ -78,16 +75,15 @@ public class ExamService {
         }
 
         return new ExamResultResponseDto(
-                studentResponseDto,
                 teacherResponseDto,
                 trueAnswerCount,
                 falseAnswerCount);
     }
 
-    private List<QuestionWithAnswerResponseDto> getQuestionListByIds(Integer[] questionsIds) {
-        List<QuestionWithAnswerResponseDto> questions = new ArrayList<>();
+    private List<QuestionResponseDto> getQuestionListByIds(Integer[] questionsIds) {
+        List<QuestionResponseDto> questions = new ArrayList<>();
         for (Integer questionId : questionsIds) {
-            QuestionWithAnswerResponseDto question = questionService.getById(questionId);
+            QuestionResponseDto question = questionService.getById(questionId);
             questions.add(question);
         }
 

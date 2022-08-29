@@ -1,6 +1,6 @@
 package com.company.domain;
 
-import com.company.error.MissingItemException;
+import java.util.stream.Stream;
 
 public enum Grade {
 
@@ -20,28 +20,10 @@ public enum Grade {
     }
 
     public static Grade getInstanceByValue(String value) {
-
-        switch (value) {
-            case "BACHELOR_I":
-                return Grade.BACHELOR_I;
-            case "BACHELOR_II":
-                return Grade.BACHELOR_II;
-            case "BACHELOR_III":
-                return Grade.BACHELOR_III;
-            case "BACHELOR_IV":
-                return Grade.BACHELOR_IV;
-            case "GRADUATE_BACHELOR":
-                return Grade.GRADUATE_BACHELOR;
-            case "MASTER_I":
-                return Grade.MASTER_I;
-            case "MASTER_II":
-                return Grade.MASTER_II;
-            case "GRADUATE_MASTER":
-                return Grade.GRADUATE_MASTER;
-            default:
-                throw new MissingItemException("Not found grade by this value: " + value);
-        }
-
+        return Stream.of(Grade.values())
+                .filter(grade -> grade.name().equals(value))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     public String getValue() {

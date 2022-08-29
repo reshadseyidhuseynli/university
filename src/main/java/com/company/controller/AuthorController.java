@@ -5,20 +5,18 @@ import com.company.dto.response.BookResponseDto;
 import com.company.dto.request.AuthorRequestDto;
 import com.company.dto.request.BookRequestDto;
 import com.company.service.AuthorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/authors")
 public class AuthorController {
 
     private final AuthorService authorService;
-
-    public AuthorController(AuthorService authorService) {
-        this.authorService = authorService;
-    }
 
     @GetMapping
     public ResponseEntity<List<AuthorResponseDto>> getAllAuthors() {
@@ -45,7 +43,7 @@ public class AuthorController {
         return ResponseEntity.ok(authorService.add(requestDto));
     }
 
-    @PostMapping("{id}/book")
+    @PostMapping("{id}/books")
     public ResponseEntity<BookResponseDto> addBook(@PathVariable Integer id,
                                                    @RequestBody BookRequestDto requestDto) {
         return ResponseEntity.ok(authorService.addBookToAuthor(id, requestDto));

@@ -14,7 +14,6 @@ public class StudentResponseDto {
     private String surname;
     private LocalDate birthdate;
     private Grade grade;
-    private FacultyResponseDto faculty;
     private List<ExamResultResponseDto> examResults;
 
 }

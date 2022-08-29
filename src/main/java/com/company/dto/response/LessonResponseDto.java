@@ -9,7 +9,6 @@ public class LessonResponseDto {
 
     private Integer id;
     private String name;
-    private FacultyResponseDto faculty;
     private List<QuestionWithoutAnswerResponseDto> questions;
 
 }

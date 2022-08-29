@@ -1,6 +1,8 @@
 package com.company.service;
 
 import com.company.entity.Student;
+import com.company.error.ErrorCode;
+import com.company.error.ServiceException;
 import com.company.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,10 @@ public class GradeService {
             year = ONE_YEAR;
         }
 
-        Student student = studentRepository.getById(studentId);
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new ServiceException(
+                ErrorCode.STUDENT_NOT_FOUND,
+                "Student not found, by id: " + studentId));
         student.setGrade(student.getGrade().passNextYear(year));
         studentRepository.save(student);
     }

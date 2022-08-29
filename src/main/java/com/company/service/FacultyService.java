@@ -1,13 +1,13 @@
 package com.company.service;
 
-import com.company.dto.response.FacultyResponseDto;
-import com.company.dto.response.LessonResponseDto;
-import com.company.dto.response.StudentResponseDto;
-import com.company.dto.response.TeacherResponseDto;
 import com.company.dto.request.FacultyRequestDto;
 import com.company.dto.request.LessonRequestDto;
 import com.company.dto.request.StudentRequestDto;
 import com.company.dto.request.TeacherRequestDto;
+import com.company.dto.response.FacultyResponseDto;
+import com.company.dto.response.LessonResponseDto;
+import com.company.dto.response.StudentResponseDto;
+import com.company.dto.response.TeacherResponseDto;
 import com.company.entity.Faculty;
 import com.company.entity.Lesson;
 import com.company.entity.Student;
@@ -59,42 +59,37 @@ public class FacultyService {
 
     public FacultyResponseDto add(FacultyRequestDto requestDto) {
         return facultyMapper.toFacultyDto(
-                facultyRepository.save(new Faculty(requestDto.getName())));
+                facultyRepository.save(facultyMapper.toFaculty(requestDto)));
     }
 
     public LessonResponseDto addLessonToFaculty(Integer facultyId, LessonRequestDto requestDto) {
-        final Faculty faculty = findByIdIfAvailable(facultyId);
-        final Lesson lesson = lessonRepository.save(
-                new Lesson(requestDto.getName(), faculty));
+        Faculty faculty = findByIdIfAvailable(facultyId);
+        Lesson lesson = lessonMapper.toLesson(requestDto);
+        lesson.setFaculty(faculty);
+        lesson = lessonRepository.save(lesson);
 
         return lessonMapper.toLessonDto(lesson);
     }
 
     public TeacherResponseDto addTeacherToFaculty(Integer facultyId, TeacherRequestDto requestDto) {
-        final Faculty faculty = findByIdIfAvailable(facultyId);
-        final Teacher teacher = teacherRepository.save(
-                new Teacher(
-                        faculty,
-                        requestDto.getName(),
-                        requestDto.getSurname(),
-                        requestDto.getBirthdate()));
+        Faculty faculty = findByIdIfAvailable(facultyId);
+        Teacher teacher = teacherMapper.toTeacher(requestDto);
+        teacher.setFaculty(faculty);
+        teacher = teacherRepository.save(teacher);
 
         return teacherMapper.toTeacherDto(teacher);
     }
 
     public StudentResponseDto addStudentToFaculty(Integer facultyId, StudentRequestDto requestDto) {
-        final Faculty faculty = findByIdIfAvailable(facultyId);
-        final Student student = studentRepository.save(
-                new Student(
-                        faculty,
-                        requestDto.getName(),
-                        requestDto.getSurname(),
-                        requestDto.getBirthdate()));
+        Faculty faculty = findByIdIfAvailable(facultyId);
+        Student student = studentMapper.toStudent(requestDto);
+        student.setFaculty(faculty);
+        student = studentRepository.save(student);
 
         return studentMapper.toStudentDto(student);
     }
 
-    private Faculty findByIdIfAvailable(Integer id){
+    private Faculty findByIdIfAvailable(Integer id) {
         return facultyRepository.findById(id)
                 .orElseThrow(() -> new ServiceException(
                         ErrorCode.FACULTY_NOT_FOUND,

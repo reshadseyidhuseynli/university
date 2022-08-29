@@ -40,17 +40,6 @@ public class ExamResult implements Serializable {
     @Column(name = "false_answer_count")
     private Integer falseAnswerCount;
 
-    public ExamResult(Student student,
-                      Teacher teacher,
-                      Integer trueAnswerCount,
-                      Integer falseAnswerCount) {
-        this.student = student;
-        this.teacher = teacher;
-        this.lesson = teacher.getLesson();
-        this.trueAnswerCount = trueAnswerCount;
-        this.falseAnswerCount = falseAnswerCount;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,8 +1,9 @@
 package com.company.controller;
 
-import com.company.dto.response.LessonResponseDto;
-import com.company.dto.response.QuestionWithAnswerResponseDto;
 import com.company.dto.request.QuestionRequestDto;
+import com.company.dto.response.LessonResponseDto;
+import com.company.dto.response.QuestionResponseDto;
+import com.company.dto.response.QuestionWithoutAnswerResponseDto;
 import com.company.service.LessonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class LessonController {
     }
 
     @GetMapping("/{id}/questions")
-    public ResponseEntity<List<QuestionWithAnswerResponseDto>> getLessonQuestions(@PathVariable Integer id) {
+    public ResponseEntity<List<QuestionWithoutAnswerResponseDto>> getLessonQuestions(@PathVariable Integer id) {
         return ResponseEntity.ok(lessonService.getById(id).getQuestions());
     }
 
@@ -41,8 +42,8 @@ public class LessonController {
 
 
     @PostMapping("/{id}/question")
-    public ResponseEntity<QuestionWithAnswerResponseDto> addQuestion(@PathVariable("id") Integer lessonId,
-                                                                     @RequestBody QuestionRequestDto requestDto) {
+    public ResponseEntity<QuestionResponseDto> addQuestion(@PathVariable("id") Integer lessonId,
+                                                           @RequestBody QuestionRequestDto requestDto) {
         return ResponseEntity.ok(lessonService.addQuestionToLesson(
                 lessonId,
                 requestDto));

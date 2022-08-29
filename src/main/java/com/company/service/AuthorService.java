@@ -45,12 +45,13 @@ public class AuthorService {
 
     public AuthorResponseDto add(AuthorRequestDto requestDto) {
         return authorMapper.toAuthorDto(
-                authorRepository.save(new Author(requestDto.getName())));
+                authorRepository.save(authorMapper.toAuthor(requestDto)));
     }
 
     public BookResponseDto addBookToAuthor(Integer authorId, BookRequestDto requestDto) {
         final Author author = findByIdIfAvailable(authorId);
-        final Book book = new Book(requestDto.getName(), author, requestDto.getPage());
+        final Book book = bookMapper.toBook(requestDto);
+        book.setAuthor(author);
 
         return bookMapper.toBookDto(bookRepository.save(book));
     }

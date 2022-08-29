@@ -1,24 +1,20 @@
 package com.company.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @Table(name = "author")
 public class Author implements Serializable {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "name")

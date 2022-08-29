@@ -8,7 +8,6 @@ public class BookResponseDto {
 
     private Integer id;
     private String name;
-    private AuthorResponseDto author;
     private BookType type;
     private Integer page;
     private boolean hardCover;

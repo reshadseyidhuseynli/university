@@ -50,16 +50,6 @@ public class Teacher implements Serializable {
     @ToString.Exclude
     private List<TeacherStudent> students;
 
-    public Teacher(Faculty faculty,
-                   String name,
-                   String surname,
-                   LocalDate birthdate) {
-        this.name = name;
-        this.surname = surname;
-        this.birthdate = birthdate;
-        this.faculty = faculty;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

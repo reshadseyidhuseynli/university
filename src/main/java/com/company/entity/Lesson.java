@@ -38,11 +38,6 @@ public class Lesson implements Serializable {
     @ToString.Exclude
     private List<Question> questions;
 
-    public Lesson(String name, Faculty faculty) {
-        this.name = name;
-        this.faculty = faculty;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

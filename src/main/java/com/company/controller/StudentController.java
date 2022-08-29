@@ -40,7 +40,7 @@ public class StudentController {
     }
 
     @PostMapping("/{id}/result")
-    public ResponseEntity<ExamResultResponseDto> add(@PathVariable("id") Integer studentId,
+    public ResponseEntity<ExamResultResponseDto> addExamResult(@PathVariable("id") Integer studentId,
                                                      @RequestBody ExamResultRequestDto requestDto) {
         return ResponseEntity.ok(studentService.addExamResultToStudent(
                 studentId,
