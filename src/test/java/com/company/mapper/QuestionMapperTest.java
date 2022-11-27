@@ -3,148 +3,133 @@ package com.company.mapper;
 import com.company.dto.request.QuestionRequestDto;
 import com.company.dto.response.QuestionResponseDto;
 import com.company.dto.response.QuestionWithoutAnswerResponseDto;
-import com.company.entity.Lesson;
 import com.company.entity.Question;
-import org.junit.jupiter.api.Assertions;
+import com.company.entity.Subject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class QuestionMapperTest {
 
-    private final QuestionMapper questionMapper = QuestionMapper.INSTANCE;
+    private static final Integer ID = 1;
+    private static final Integer TRUE_OPTION = 1;
+    private static final String QUESTION_TEXT = "questionText";
+    private static final String QUESTION_OPTION1 = "questionOption1";
+    private static final String QUESTION_OPTION2 = "questionOption2";
+    private static final String QUESTION_OPTION3 = "questionOption3";
+    private static final String QUESTION_OPTION4 = "questionOption4";
 
     private static Question question;
     private static QuestionResponseDto questionResponseDto;
     private static QuestionWithoutAnswerResponseDto questionWithoutAnswerResponseDto;
+    private static QuestionRequestDto questionRequestDto;
+    private static Question newQuestion;
+
+    private final QuestionMapper questionMapper = QuestionMapper.INSTANCE;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         question = new Question();
-        question.setId(1);
-        question.setText("questionText");
-        question.setOption1("questionOption1");
-        question.setOption2("questionOption2");
-        question.setOption3("questionOption3");
-        question.setOption4("questionOption4");
-        question.setTrueOption(1);
-        question.setLesson(new Lesson());
+        question.setId(ID);
+        question.setText(QUESTION_TEXT);
+        question.setOption1(QUESTION_OPTION1);
+        question.setOption2(QUESTION_OPTION2);
+        question.setOption3(QUESTION_OPTION3);
+        question.setOption4(QUESTION_OPTION4);
+        question.setTrueOption(TRUE_OPTION);
+        question.setSubject(new Subject());
 
         questionResponseDto = new QuestionResponseDto();
-        questionResponseDto.setId(1);
-        questionResponseDto.setText("questionText");
-        questionResponseDto.setOption1("questionOption1");
-        questionResponseDto.setOption2("questionOption2");
-        questionResponseDto.setOption3("questionOption3");
+        questionResponseDto.setId(ID);
+        questionResponseDto.setText(QUESTION_TEXT);
+        questionResponseDto.setOption1(QUESTION_OPTION1);
+        questionResponseDto.setOption2(QUESTION_OPTION2);
+        questionResponseDto.setOption3(QUESTION_OPTION3);
         questionResponseDto.setOption4("questionOption4");
-        questionResponseDto.setTrueOption(1);
+        questionResponseDto.setTrueOption(TRUE_OPTION);
 
         questionWithoutAnswerResponseDto = new QuestionWithoutAnswerResponseDto();
-        questionWithoutAnswerResponseDto.setId(1);
-        questionWithoutAnswerResponseDto.setText("questionText");
-        questionWithoutAnswerResponseDto.setOption1("questionOption1");
-        questionWithoutAnswerResponseDto.setOption2("questionOption2");
-        questionWithoutAnswerResponseDto.setOption3("questionOption3");
-        questionWithoutAnswerResponseDto.setOption4("questionOption4");
+        questionWithoutAnswerResponseDto.setId(ID);
+        questionWithoutAnswerResponseDto.setText(QUESTION_TEXT);
+        questionWithoutAnswerResponseDto.setOption1(QUESTION_OPTION1);
+        questionWithoutAnswerResponseDto.setOption2(QUESTION_OPTION2);
+        questionWithoutAnswerResponseDto.setOption3(QUESTION_OPTION3);
+        questionWithoutAnswerResponseDto.setOption4(QUESTION_OPTION4);
+
+        questionRequestDto = new QuestionRequestDto();
+        questionRequestDto.setText(QUESTION_TEXT);
+        questionRequestDto.setOption1(QUESTION_OPTION1);
+        questionRequestDto.setOption2(QUESTION_OPTION2);
+        questionRequestDto.setOption3(QUESTION_OPTION3);
+        questionRequestDto.setOption4(QUESTION_OPTION4);
+        questionRequestDto.setTrueOption(TRUE_OPTION);
+
+        newQuestion = new Question();
+        newQuestion.setId(ID);
+        newQuestion.setText(QUESTION_TEXT);
+        newQuestion.setOption1(QUESTION_OPTION1);
+        newQuestion.setOption2(QUESTION_OPTION2);
+        newQuestion.setOption3(QUESTION_OPTION3);
+        newQuestion.setOption4(QUESTION_OPTION4);
+        newQuestion.setTrueOption(TRUE_OPTION);
     }
 
     @Test
     void toQuestionDtoTest() {
-        QuestionResponseDto actual = questionMapper.toQuestionDto(question);
-
-        Assertions.assertEquals(questionResponseDto, actual);
+        Question given = question;
+        QuestionResponseDto expected = questionResponseDto;
+        QuestionResponseDto actual = questionMapper.toQuestionDto(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toQuestionDtoListTest() {
-        List<Question> given = new ArrayList<>();
-        given.add(question);
-
-        List<QuestionResponseDto> expected = new ArrayList<>();
-        expected.add(questionResponseDto);
-
+        List<Question> given = Collections.singletonList(question);
+        List<QuestionResponseDto> expected = Collections.singletonList(questionResponseDto);
         List<QuestionResponseDto> actual = questionMapper.toQuestionDtoList(given);
-
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toQuestionTest() {
-        QuestionRequestDto given = new QuestionRequestDto();
-        given.setText("testQuestionTest");
-        given.setOption1("testQuestionOption1");
-        given.setOption2("testQuestionOption2");
-        given.setOption3("testQuestionOption3");
-        given.setOption4("testQuestionOption4");
-        given.setTrueOption(1);
-
-        Question expected = new Question();
-        expected.setId(1000);
-        expected.setText("testQuestionTest");
-        expected.setOption1("testQuestionOption1");
-        expected.setOption2("testQuestionOption2");
-        expected.setOption3("testQuestionOption3");
-        expected.setOption4("testQuestionOption4");
-        expected.setTrueOption(1);
+        QuestionRequestDto given = questionRequestDto;
+        Question expected = newQuestion;
 
         Question actual = questionMapper.toQuestion(given);
-        actual.setId(1000);
-
-        Assertions.assertEquals(expected, actual);
+        actual.setId(ID);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toQuestionListTest() {
-        QuestionRequestDto questionRequestDto = new QuestionRequestDto();
-        questionRequestDto.setText("testQuestionTest");
-        questionRequestDto.setOption1("testQuestionOption1");
-        questionRequestDto.setOption2("testQuestionOption2");
-        questionRequestDto.setOption3("testQuestionOption3");
-        questionRequestDto.setOption4("testQuestionOption4");
-        questionRequestDto.setTrueOption(1);
-
-        Question question = new Question();
-        question.setId(1000);
-        question.setText("testQuestionTest");
-        question.setOption1("testQuestionOption1");
-        question.setOption2("testQuestionOption2");
-        question.setOption3("testQuestionOption3");
-        question.setOption4("testQuestionOption4");
-        question.setTrueOption(1);
-
-        List<QuestionRequestDto> given = new ArrayList<>();
-        given.add(questionRequestDto);
-
-        List<Question> expected = new ArrayList<>();
-        expected.add(question);
+        List<QuestionRequestDto> given = Collections.singletonList(questionRequestDto);
+        List<Question> expected = Collections.singletonList(newQuestion);
 
         List<Question> actual = questionMapper.toQuestionList(given);
-        actual.get(0).setId(1000);
-
-        Assertions.assertEquals(expected, actual);
+        actual.get(0).setId(ID);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toQuestionWithoutAnswerDtoTest() {
+        Question given = question;
+        QuestionWithoutAnswerResponseDto expected = questionWithoutAnswerResponseDto;
         QuestionWithoutAnswerResponseDto actual =
-                questionMapper.toQuestionWithoutAnswerDto(question);
-
-        Assertions.assertEquals(questionWithoutAnswerResponseDto, actual);
+                questionMapper.toQuestionWithoutAnswerDto(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toQuestionWithoutAnswerDtoListTest() {
-        List<Question> given = new ArrayList<>();
-        given.add(question);
-
-        List<QuestionWithoutAnswerResponseDto> expected = new ArrayList<>();
-        expected.add(questionWithoutAnswerResponseDto);
-
+        List<Question> given = Collections.singletonList(question);
+        List<QuestionWithoutAnswerResponseDto> expected =
+                Collections.singletonList(questionWithoutAnswerResponseDto);
         List<QuestionWithoutAnswerResponseDto> actual =
                 questionMapper.toQuestionWithoutAnswerDtoList(given);
-
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 }

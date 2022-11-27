@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class LessonResponseDto {
+public class SubjectResponseDto {
 
     private Integer id;
     private String name;

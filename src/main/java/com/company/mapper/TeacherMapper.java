@@ -1,9 +1,9 @@
 package com.company.mapper;
 
 import com.company.dto.request.TeacherRequestDto;
-import com.company.dto.response.TeacherResponseDto;
 import com.company.entity.Teacher;
 import com.company.mapper.qualifier.EnumMapper;
+import com.company.dto.response.TeacherResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

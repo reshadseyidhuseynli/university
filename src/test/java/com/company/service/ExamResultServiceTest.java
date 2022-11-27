@@ -23,8 +23,10 @@ class ExamResultServiceTest {
 
     @Mock
     private ExamResultRepository examResultRepository;
+
     @Mock
     private ExamResultMapper examResultMapper;
+
     @InjectMocks
     private ExamResultService examResultService;
 
@@ -91,36 +93,8 @@ class ExamResultServiceTest {
     @Test
     void deleteTest() {
         Integer given = 1;
-
-        Mockito.when(examResultRepository.findById(given))
-                .thenReturn(Optional.of(examResult));
-        Mockito.when(examResultMapper.toExamResultDto(examResult))
-                .thenReturn(examResultResponseDto);
-
-        ExamResultResponseDto actual = examResultService.delete(given);
-
-        Assertions.assertEquals(examResultResponseDto, actual);
+        examResultService.delete(given);
         Mockito.verify(examResultRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(examResultRepository, Mockito.times(1))
-                .delete(examResult);
-        Mockito.verify(examResultMapper, Mockito.times(1))
-                .toExamResultDto(examResult);
-    }
-
-    @Test
-    void deleteNotFoundExamResultTest() {
-        Integer given = 100;
-
-        Mockito.when(examResultRepository.findById(given))
-                .thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ServiceException.class, () -> examResultService.delete(given));
-        Mockito.verify(examResultRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(examResultRepository, Mockito.never())
-                .delete(examResult);
-        Mockito.verify(examResultMapper, Mockito.never())
-                .toExamResultDto(examResult);
+                .deleteById(given);
     }
 }

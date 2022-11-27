@@ -1,8 +1,8 @@
 package com.company.mapper.qualifier;
 
 import com.company.domain.AcademicRank;
-import com.company.domain.BookType;
 import com.company.domain.Grade;
+import com.company.domain.BookType;
 import org.springframework.stereotype.Component;
 
 @Component

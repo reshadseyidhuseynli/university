@@ -4,15 +4,13 @@ import com.company.dto.request.ExamResultRequestDto;
 import com.company.dto.response.ExamResultResponseDto;
 import com.company.dto.response.StudentResponseDto;
 import com.company.entity.ExamResult;
-import com.company.entity.Student;
+import com.company.entity.Subject;
 import com.company.entity.Teacher;
+import com.company.entity.Student;
 import com.company.error.ServiceException;
 import com.company.mapper.ExamResultMapper;
 import com.company.mapper.StudentMapper;
-import com.company.repository.ExamResultRepository;
-import com.company.repository.FacultyRepository;
-import com.company.repository.StudentRepository;
-import com.company.repository.TeacherRepository;
+import com.company.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -33,7 +31,7 @@ class StudentServiceTest {
     @Mock
     private StudentRepository studentRepository;
     @Mock
-    private TeacherRepository teacherRepository;
+    private SubjectRepository subjectRepository;
     @Mock
     private ExamResultRepository examResultRepository;
     @Mock
@@ -111,76 +109,44 @@ class StudentServiceTest {
     @Test
     void deleteTest() {
         Integer given = 1;
-        Student student = new Student();
-        StudentResponseDto expected = new StudentResponseDto();
-
-        Mockito.when(studentRepository.findById(given))
-                .thenReturn(Optional.of(student));
-        Mockito.when(studentMapper.toStudentDto(student))
-                .thenReturn(expected);
-
-        StudentResponseDto actual = studentService.delete(given);
-
-        Assertions.assertEquals(expected, actual);
+        studentService.delete(given);
         Mockito.verify(studentRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(studentRepository, Mockito.times(1))
-                .delete(student);
-        Mockito.verify(studentMapper, Mockito.times(1))
-                .toStudentDto(student);
-    }
-
-    @Test
-    void deleteNotFoundTest() {
-        Integer given = 100;
-        Student student = new Student();
-
-        Mockito.when(studentRepository.findById(given))
-                .thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ServiceException.class,
-                () -> studentService.delete(given));
-        Mockito.verify(studentRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(studentRepository, Mockito.never())
-                .delete(student);
-        Mockito.verify(studentMapper, Mockito.never())
-                .toStudentDto(student);
+                .deleteById(given);
     }
 
     @Test
     void addExamResultToStudentTest() {
         Integer givenId = 1;
         ExamResultRequestDto givenDto = new ExamResultRequestDto();
-        givenDto.setTeacherId(2);
+        givenDto.setSubjectId(2);
         ExamResultResponseDto expected = new ExamResultResponseDto();
 
         Student student = new Student();
-        Teacher teacher = new Teacher();
+        Subject subject = new Subject();
 
         Mockito.when(studentRepository.findById(givenId))
                 .thenReturn(Optional.of(student));
-        Mockito.when(teacherRepository.findById(givenDto.getTeacherId()))
-                .thenReturn(Optional.of(teacher));
+        Mockito.when(subjectRepository.findById(givenDto.getSubjectId()))
+                .thenReturn(Optional.of(subject));
         Mockito.when(examResultMapper.toExamResult(givenDto))
                 .thenReturn(examResult);
         Mockito.when(examResultMapper.toExamResultDto(examResult))
                 .thenReturn(expected);
 
         ExamResultResponseDto actual =
-                studentService.addExamResultToStudent(givenId, givenDto);
+                studentService.addExamResultForStudent(givenId, givenDto);
 
         Assertions.assertEquals(expected, actual);
         Mockito.verify(studentRepository, Mockito.times(1))
                 .findById(givenId);
-        Mockito.verify(teacherRepository, Mockito.times(1))
-                .findById(givenDto.getTeacherId());
+        Mockito.verify(subjectRepository, Mockito.times(1))
+                .findById(givenDto.getSubjectId());
         Mockito.verify(examResultMapper, Mockito.times(1))
                 .toExamResult(givenDto);
         Mockito.verify(examResult, Mockito.times(1))
                 .setStudent(student);
         Mockito.verify(examResult, Mockito.times(1))
-                .setTeacher(teacher);
+                .setSubject(subject);
         Mockito.verify(examResultRepository, Mockito.times(1))
                 .save(examResult);
         Mockito.verify(examResultMapper, Mockito.times(1))

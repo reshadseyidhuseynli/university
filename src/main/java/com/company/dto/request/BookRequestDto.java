@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BookRequestDto {
 
-    String name;
-    Integer page;
+    private String name;
+    private Integer page;
 
 }

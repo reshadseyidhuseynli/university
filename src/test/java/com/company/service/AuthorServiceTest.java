@@ -1,14 +1,14 @@
 package com.company.service;
 
-import com.company.dto.request.AuthorRequestDto;
 import com.company.dto.request.BookRequestDto;
-import com.company.dto.response.AuthorResponseDto;
 import com.company.dto.response.BookResponseDto;
-import com.company.entity.Author;
 import com.company.entity.Book;
-import com.company.error.ServiceException;
 import com.company.mapper.AuthorMapper;
 import com.company.mapper.BookMapper;
+import com.company.dto.request.AuthorRequestDto;
+import com.company.dto.response.AuthorResponseDto;
+import com.company.entity.Author;
+import com.company.error.ServiceException;
 import com.company.repository.AuthorRepository;
 import com.company.repository.BookRepository;
 import org.junit.jupiter.api.Assertions;
@@ -42,7 +42,7 @@ class AuthorServiceTest {
     private static Book book;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         author = new Author();
         book = new Book();
         book.setAuthor(author);
@@ -60,10 +60,8 @@ class AuthorServiceTest {
 
         Assertions.assertEquals(expected, actual);
 
-        Mockito.verify(authorRepository, Mockito.times(1))
-                .findAll();
-        Mockito.verify(authorMapper, Mockito.times(1))
-                .toAuthorDtoList(authorList);
+        Mockito.verify(authorRepository, Mockito.times(1)).findAll();
+        Mockito.verify(authorMapper, Mockito.times(1)).toAuthorDtoList(authorList);
     }
 
     @Test
@@ -91,45 +89,16 @@ class AuthorServiceTest {
         Mockito.when(authorRepository.findById(given)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ServiceException.class, () -> authorService.getById(given));
-        Mockito.verify(authorRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(authorMapper, Mockito.never())
-                .toAuthorDto(author);
+        Mockito.verify(authorRepository, Mockito.times(1)).findById(given);
+        Mockito.verify(authorMapper, Mockito.never()).toAuthorDto(author);
     }
 
     @Test
     void deleteTest() {
         Integer given = 1;
-
-        AuthorResponseDto expected = new AuthorResponseDto();
-
-        Mockito.when(authorRepository.findById(given)).thenReturn(Optional.of(author));
-        Mockito.when(authorMapper.toAuthorDto(author)).thenReturn(expected);
-
-        AuthorResponseDto actual = authorService.delete(given);
-
-        Assertions.assertEquals(expected, actual);
+        authorService.delete(given);
         Mockito.verify(authorRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(authorRepository, Mockito.times(1))
-                .delete(author);
-        Mockito.verify(authorMapper, Mockito.times(1))
-                .toAuthorDto(author);
-    }
-
-    @Test
-    void deleteNotFoundAuthorTest() {
-        Integer given = 100;
-
-        Mockito.when(authorRepository.findById(given)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ServiceException.class, () -> authorService.delete(given));
-        Mockito.verify(authorRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(authorRepository, Mockito.never())
-                .delete(author);
-        Mockito.verify(authorMapper, Mockito.never())
-                .toAuthorDto(author);
+                .deleteById(given);
     }
 
     @Test

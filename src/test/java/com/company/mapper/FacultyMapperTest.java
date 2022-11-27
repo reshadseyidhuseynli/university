@@ -4,14 +4,13 @@ import com.company.domain.AcademicRank;
 import com.company.domain.Grade;
 import com.company.dto.request.FacultyRequestDto;
 import com.company.dto.response.FacultyResponseDto;
-import com.company.dto.response.LessonResponseDto;
 import com.company.dto.response.StudentResponseDto;
+import com.company.dto.response.SubjectResponseDto;
 import com.company.dto.response.TeacherResponseDto;
 import com.company.entity.Faculty;
-import com.company.entity.Lesson;
 import com.company.entity.Student;
+import com.company.entity.Subject;
 import com.company.entity.Teacher;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -19,89 +18,85 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class FacultyMapperTest {
 
-    private final FacultyMapper facultyMapper = FacultyMapper.INSTANCE;
+    private static final Integer ID = 1;
+    private static final String FACULTY_NAME = "testFaculty";
 
     private static Faculty faculty;
     private static FacultyResponseDto facultyResponseDto;
+    private static FacultyRequestDto facultyRequestDto;
+    private static Faculty newFaculty;
+
+    private final FacultyMapper facultyMapper = FacultyMapper.INSTANCE;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         faculty = new Faculty();
-        faculty.setId(1);
-        faculty.setName("testFaculty");
+        faculty.setId(ID);
+        faculty.setName(FACULTY_NAME);
         Teacher teacher = new Teacher();
         teacher.setAcademicRank(AcademicRank.PROFESSOR);
         faculty.setHead(teacher);
-        faculty.setLessons(new ArrayList<>(Collections.singletonList(new Lesson())));
+        faculty.setSubjects(new ArrayList<>(Collections.singletonList(new Subject())));
         faculty.setTeachers(new ArrayList<>(Collections.singletonList(new Teacher())));
         faculty.setStudents(new ArrayList<>(Collections.singletonList(new Student())));
 
         facultyResponseDto = new FacultyResponseDto();
-        facultyResponseDto.setId(1);
-        facultyResponseDto.setName("testFaculty");
+        facultyResponseDto.setId(ID);
+        facultyResponseDto.setName(FACULTY_NAME);
         TeacherResponseDto teacherResponseDto = new TeacherResponseDto();
         teacherResponseDto.setAcademicRank(AcademicRank.PROFESSOR);
         facultyResponseDto.setHead(teacherResponseDto);
-        facultyResponseDto.setLessons(new ArrayList<>(Collections.singletonList(new LessonResponseDto())));
+        facultyResponseDto.setSubjects(new ArrayList<>(Collections.singletonList(new SubjectResponseDto())));
         facultyResponseDto.setTeachers(new ArrayList<>(Collections.singletonList(new TeacherResponseDto())));
         StudentResponseDto studentResponseDto = new StudentResponseDto();
         studentResponseDto.setGrade(Grade.BACHELOR_I);
         facultyResponseDto.setStudents(new ArrayList<>(Collections.singletonList(studentResponseDto)));
+
+        facultyRequestDto = new FacultyRequestDto();
+        facultyRequestDto.setName(FACULTY_NAME);
+
+        newFaculty = new Faculty();
+        newFaculty.setId(ID);
+        newFaculty.setName(FACULTY_NAME);
     }
 
     @Test
     void toFacultyResponseDtoTest() {
-        FacultyResponseDto actual = facultyMapper.toFacultyDto(faculty);
-
-        Assertions.assertEquals(facultyResponseDto, actual);
-    }
-
-    @Test
-    void toFacultyResponseDtoListTest() {
-        List<Faculty> given = new ArrayList<>();
-        given.add(faculty);
-
-        List<FacultyResponseDto> expected = new ArrayList<>();
-        expected.add(facultyResponseDto);
-
-        List<FacultyResponseDto> actual = facultyMapper.toFacultyDtoList(given);
-
-        Assertions.assertEquals(expected, actual);
+        Faculty given = faculty;
+        FacultyResponseDto expected = facultyResponseDto;
+        FacultyResponseDto actual = facultyMapper.toFacultyDto(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toFacultyTest() {
-        FacultyRequestDto given = new FacultyRequestDto();
-        given.setName("testFaculty");
-        Faculty expected = new Faculty();
-        expected.setId(1000);
-        expected.setName("testFaculty");
+        FacultyRequestDto given = facultyRequestDto;
+        Faculty expected = newFaculty;
 
         Faculty actual = facultyMapper.toFaculty(given);
-        actual.setId(1000);
+        actual.setId(ID);
+        assertEquals(expected, actual);
+    }
 
-        Assertions.assertEquals(expected, actual);
+    @Test
+    void toFacultyResponseDtoListTest() {
+        List<Faculty> given = Collections.singletonList(faculty);
+        List<FacultyResponseDto> expected = Collections.singletonList(facultyResponseDto);
+        List<FacultyResponseDto> actual = facultyMapper.toFacultyDtoList(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toFacultyListTest() {
-        FacultyRequestDto facultyRequestDto = new FacultyRequestDto();
-        facultyRequestDto.setName("testFaculty");
-        Faculty faculty = new Faculty();
-        faculty.setId(1000);
-        faculty.setName("testFaculty");
-
-        List<FacultyRequestDto> given = new ArrayList<>();
-        given.add(facultyRequestDto);
-
-        List<Faculty> expected = new ArrayList<>();
-        expected.add(faculty);
+        List<FacultyRequestDto> given = Collections.singletonList(facultyRequestDto);
+        List<Faculty> expected = Collections.singletonList(newFaculty);
 
         List<Faculty> actual = facultyMapper.toFacultyList(given);
-        actual.get(0).setId(1000);
-
-        Assertions.assertEquals(expected, actual);
+        actual.get(0).setId(ID);
+        assertEquals(expected, actual);
     }
 }

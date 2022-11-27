@@ -1,89 +1,81 @@
 package com.company.controller;
 
 import com.company.dto.request.FacultyRequestDto;
-import com.company.dto.request.LessonRequestDto;
 import com.company.dto.request.StudentRequestDto;
+import com.company.dto.request.SubjectRequestDto;
 import com.company.dto.request.TeacherRequestDto;
 import com.company.dto.response.FacultyResponseDto;
-import com.company.dto.response.LessonResponseDto;
 import com.company.dto.response.StudentResponseDto;
+import com.company.dto.response.SubjectResponseDto;
 import com.company.dto.response.TeacherResponseDto;
 import com.company.service.FacultyService;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/faculties")
 public class FacultyController {
 
     private final FacultyService facultyService;
 
-    FacultyController(FacultyService facultyService) {
-        this.facultyService = facultyService;
-    }
-
     @GetMapping
-    public ResponseEntity<List<FacultyResponseDto>> getAll() {
-        return ResponseEntity.ok(facultyService.getAll());
+    public List<FacultyResponseDto> getAll() {
+        return facultyService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FacultyResponseDto> getById(@PathVariable Integer id) {
-        return ResponseEntity.ok(facultyService.getById(id));
+    public FacultyResponseDto getById(@PathVariable Integer id) {
+        return facultyService.getById(id);
     }
 
     @GetMapping("/{id}/head")
-    public ResponseEntity<TeacherResponseDto> getFacultyHead(@PathVariable Integer id) {
-        return ResponseEntity.ok(facultyService.getById(id).getHead());
+    public TeacherResponseDto getFacultyHeadById(@PathVariable Integer id) {
+        return facultyService.getById(id).getHead();
     }
 
-    @GetMapping("/{id}/lessons")
-    public ResponseEntity<List<LessonResponseDto>> getFacultyLessons(@PathVariable Integer id) {
-        return ResponseEntity.ok(facultyService.getById(id).getLessons());
+    @GetMapping("/{id}/subjects")
+    public List<SubjectResponseDto> getFacultySubjectsById(@PathVariable Integer id) {
+        return facultyService.getById(id).getSubjects();
     }
 
     @GetMapping("/{id}/teachers")
-    public ResponseEntity<List<TeacherResponseDto>> getFacultyTeachers(@PathVariable Integer id) {
-        return ResponseEntity.ok(facultyService.getById(id).getTeachers());
+    public List<TeacherResponseDto> getFacultyTeachersById(@PathVariable Integer id) {
+        return facultyService.getById(id).getTeachers();
     }
 
     @GetMapping("/{id}/students")
-    public ResponseEntity<List<StudentResponseDto>> getFacultyStudents(@PathVariable Integer id) {
-        return ResponseEntity.ok(facultyService.getById(id).getStudents());
+    public List<StudentResponseDto> getFacultyStudentsById(@PathVariable Integer id) {
+        return facultyService.getById(id).getStudents();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<FacultyResponseDto> delete(@PathVariable Integer id) {
-        return ResponseEntity.ok(facultyService.delete(id));
+    public void delete(@PathVariable Integer id) {
+        facultyService.delete(id);
     }
 
     @PostMapping
-    public ResponseEntity<FacultyResponseDto> add(@RequestBody FacultyRequestDto requestDto) {
-        return ResponseEntity.ok(facultyService.add(requestDto));
+    public FacultyResponseDto add(@RequestBody FacultyRequestDto requestDto) {
+        return facultyService.add(requestDto);
     }
 
-    @PostMapping("/{id}/lesson")
-    public ResponseEntity<LessonResponseDto> addLesson(@PathVariable("id") Integer facultyId,
-                                                       @RequestBody LessonRequestDto requestDto) {
-
-        return ResponseEntity.ok(facultyService.addLessonToFaculty(
-                facultyId,
-                requestDto));
+    @PostMapping("/{id}/subjects")
+    public SubjectResponseDto addSubject(@PathVariable("id") Integer facultyId,
+                                        @RequestBody SubjectRequestDto requestDto) {
+        return facultyService.addSubjectToFaculty(facultyId, requestDto);
     }
 
-    @PostMapping("/{id}/teacher")
-    public ResponseEntity<TeacherResponseDto> addTeacher(@PathVariable("id") Integer facultyId,
-                                                         @RequestBody TeacherRequestDto requestDto) {
-        return ResponseEntity.ok(facultyService.addTeacherToFaculty(facultyId,requestDto));
+    @PostMapping("/{id}/teachers")
+    public TeacherResponseDto addTeacher(@PathVariable("id") Integer facultyId,
+                                         @RequestBody TeacherRequestDto requestDto) {
+        return facultyService.addTeacherToFaculty(facultyId, requestDto);
     }
 
-    @PostMapping("/{id}/student")
-    public ResponseEntity<StudentResponseDto> addStudent(@PathVariable("id") Integer facultyId,
-                                                         @RequestBody StudentRequestDto requestDto) {
-        return ResponseEntity.ok(facultyService.addStudentToFaculty(
-                facultyId,
-                requestDto));
+    @PostMapping("/{id}/students")
+    public StudentResponseDto addStudent(@PathVariable("id") Integer facultyId,
+                                         @RequestBody StudentRequestDto requestDto) {
+        return facultyService.addStudentToFaculty(facultyId, requestDto);
     }
 }

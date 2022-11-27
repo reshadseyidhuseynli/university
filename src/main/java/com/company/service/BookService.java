@@ -2,10 +2,10 @@ package com.company.service;
 
 import com.company.dto.response.BookResponseDto;
 import com.company.entity.Book;
-import com.company.error.ErrorCode;
-import com.company.error.ServiceException;
 import com.company.mapper.BookMapper;
 import com.company.repository.BookRepository;
+import com.company.error.ErrorCode;
+import com.company.error.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,17 +25,14 @@ public class BookService {
     }
 
     public BookResponseDto getById(Integer id) {
-        return bookMapper.toBookDto(findByIdIfAvailable(id));
+        return bookMapper.toBookDto(findById(id));
     }
 
-    public BookResponseDto delete(Integer id) {
-        final Book book = findByIdIfAvailable(id);
-        bookRepository.delete(book);
-
-        return bookMapper.toBookDto(book);
+    public void delete(Integer id) {
+        bookRepository.deleteById(id);
     }
 
-    private Book findByIdIfAvailable(Integer id){
+    private Book findById(Integer id){
         return bookRepository.findById(id)
                 .orElseThrow(() -> new ServiceException(
                         ErrorCode.BOOK_NOT_FOUND,

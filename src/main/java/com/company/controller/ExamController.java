@@ -4,30 +4,27 @@ import com.company.dto.request.ExamAnswerRequestDto;
 import com.company.dto.response.ExamResultResponseDto;
 import com.company.dto.response.QuestionWithoutAnswerResponseDto;
 import com.company.service.ExamService;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/exam")
 public class ExamController {
 
     private final ExamService examService;
 
-    public ExamController(ExamService examService) {
-        this.examService = examService;
-    }
-
     @GetMapping
-    public ResponseEntity<List<QuestionWithoutAnswerResponseDto>> getExaminationPaperByTeacherId(
-            @RequestParam(name = "teacherId") Integer id){
-        return ResponseEntity.ok(examService.getExaminationPaperByTeacherId(id));
+    public List<QuestionWithoutAnswerResponseDto> getExaminationPaperByTeacherId(
+            @RequestParam(name = "subject-id") Integer subjectId){
+        return examService.getExaminationPaperBySubjectId(subjectId);
     }
 
     @PostMapping
-    public ResponseEntity<ExamResultResponseDto> acceptAnswersAndGiveResult(
+    public ExamResultResponseDto acceptAnswersAndGiveResult(
             @RequestBody ExamAnswerRequestDto requestDto){
-        return ResponseEntity.ok(examService.acceptAnswersAndGiveResult(requestDto));
+        return examService.acceptAnswersAndGiveResult(requestDto);
     }
 }

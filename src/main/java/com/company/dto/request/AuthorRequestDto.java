@@ -2,9 +2,12 @@ package com.company.dto.request;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 public class AuthorRequestDto {
 
-    String name;
+    @NotBlank(message = "Author name can not be blank")
+    private String name;
 
 }

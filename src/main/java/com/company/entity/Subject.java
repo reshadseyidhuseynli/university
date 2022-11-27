@@ -16,8 +16,8 @@ import java.util.Objects;
 @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "lesson")
-public class Lesson implements Serializable {
+@Table(name = "subject")
+public class Subject implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -30,11 +30,11 @@ public class Lesson implements Serializable {
     @ManyToOne
     private Faculty faculty;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "subject")
     @ToString.Exclude
     private List<Teacher> teachers;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "subject")
     @ToString.Exclude
     private List<Question> questions;
 
@@ -42,8 +42,8 @@ public class Lesson implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Lesson lesson = (Lesson) o;
-        return id != null && Objects.equals(id, lesson.id);
+        Subject subject = (Subject) o;
+        return id != null && Objects.equals(id, subject.id);
     }
 
     @Override

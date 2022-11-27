@@ -1,6 +1,7 @@
 package com.company.service;
 
 import com.company.dto.response.QuestionResponseDto;
+import com.company.dto.response.QuestionWithoutAnswerResponseDto;
 import com.company.entity.Question;
 import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
@@ -25,17 +26,23 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getById(Integer id) {
-        return questionMapper.toQuestionDto(findByIdIfAvailable(id));
+        return questionMapper.toQuestionDto(findById(id));
     }
 
-    public QuestionResponseDto delete(Integer id) {
-        final Question question = findByIdIfAvailable(id);
-        questionRepository.delete(question);
-
-        return questionMapper.toQuestionDto(question);
+    public void delete(Integer id) {
+        questionRepository.deleteById(id);
     }
 
-    private Question findByIdIfAvailable(Integer id) {
+    public List<QuestionWithoutAnswerResponseDto> getRandomQuestions(Integer subjectId, Integer count) {
+        return questionMapper.toQuestionWithoutAnswerDtoList(
+                questionRepository.getRandomQuestion(subjectId, count));
+    }
+
+    public List<QuestionResponseDto> getByIdList(List<Integer> ids) {
+        return questionMapper.toQuestionDtoList(questionRepository.findByIdIn(ids));
+    }
+
+    private Question findById(Integer id) {
         return questionRepository.findById(id)
                 .orElseThrow(() -> new ServiceException(
                         ErrorCode.QUESTION_NOT_FOUND,

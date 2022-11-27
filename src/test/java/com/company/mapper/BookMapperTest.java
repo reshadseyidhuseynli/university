@@ -4,70 +4,75 @@ import com.company.domain.BookType;
 import com.company.dto.request.BookRequestDto;
 import com.company.dto.response.BookResponseDto;
 import com.company.entity.Book;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BookMapperTest {
 
-    private final BookMapper bookMapper = BookMapper.INSTANCE;
+    private static final Integer ID = 1;
+    private static final Integer PAGE = 100;
+    private static final String BOOK_NAME = "testBook";
 
     private static Book book;
     private static BookResponseDto bookResponseDto;
+    private static BookRequestDto bookRequestDto;
+    private static Book newBook;
+
+    private final BookMapper bookMapper = BookMapper.INSTANCE;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         book = new Book();
-        book.setId(1);
+        book.setId(ID);
         book.setType(BookType.DRAMA);
-        book.setName("test");
-        book.setPage(1);
+        book.setName(BOOK_NAME);
+        book.setPage(PAGE);
         book.setHardCover(true);
 
         bookResponseDto = new BookResponseDto();
-        bookResponseDto.setId(1);
+        bookResponseDto.setId(ID);
         bookResponseDto.setType(BookType.DRAMA);
-        bookResponseDto.setName("test");
-        bookResponseDto.setPage(1);
+        bookResponseDto.setName(BOOK_NAME);
+        bookResponseDto.setPage(PAGE);
         bookResponseDto.setHardCover(true);
+
+        bookRequestDto = new BookRequestDto();
+        bookRequestDto.setName(BOOK_NAME);
+        bookRequestDto.setPage(PAGE);
+
+        newBook = new Book();
+        newBook.setName(BOOK_NAME);
+        newBook.setPage(PAGE);
     }
 
     @Test
     void toBookDtoTest() {
-        BookResponseDto actual = bookMapper.toBookDto(book);
-
-        Assertions.assertEquals(bookResponseDto, actual);
+        Book given = book;
+        BookResponseDto expected = bookResponseDto;
+        BookResponseDto actual = bookMapper.toBookDto(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toBookTest() {
-        BookRequestDto given = new BookRequestDto();
-        given.setName("test");
-        given.setPage(1);
-
-        Book expected = new Book();
-        expected.setName("test");
-        expected.setPage(1);
+        BookRequestDto given = bookRequestDto;
+        Book expected = newBook;
 
         Book actual = bookMapper.toBook(given);
-
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toBookDtoListTest() {
-        List<Book> given = new ArrayList<>();
-        given.add(book);
-
-        List<BookResponseDto> expected = new ArrayList<>();
-        expected.add(bookResponseDto);
-
+        List<Book> given = Collections.singletonList(book);
+        List<BookResponseDto> expected = Collections.singletonList(bookResponseDto);
         List<BookResponseDto> actual = bookMapper.toBookDtoList(given);
-
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
 }
