@@ -15,9 +15,9 @@ public interface ExamResultMapper {
 
     ExamResultResponseDto toExamResultDto(ExamResult examResult);
 
-    List<ExamResultResponseDto> toExamResultDtoList(List<ExamResult> examResultList);
-
     ExamResult toExamResult(ExamResultRequestDto requestDto);
+
+    List<ExamResultResponseDto> toExamResultDtoList(List<ExamResult> examResultList);
 
     List<ExamResult> toExamResultList(List<ExamResultRequestDto> requestDtoList);
 }

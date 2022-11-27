@@ -2,101 +2,85 @@ package com.company.mapper;
 
 import com.company.dto.request.ExamResultRequestDto;
 import com.company.dto.response.ExamResultResponseDto;
-import com.company.dto.response.LessonResponseDto;
-import com.company.dto.response.TeacherResponseDto;
+import com.company.dto.response.SubjectResponseDto;
 import com.company.entity.ExamResult;
-import com.company.entity.Lesson;
 import com.company.entity.Student;
-import com.company.entity.Teacher;
-import org.junit.jupiter.api.Assertions;
+import com.company.entity.Subject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ExamResultMapperTest {
 
-    private final ExamResultMapper examResultMapper = ExamResultMapper.INSTANCE;
+    private static final Integer ID = 1;
+    private static final Integer COUNT_OF_TRUE_ANSWERS = 10;
 
     private static ExamResult examResult;
     private static ExamResultResponseDto examResultResponseDto;
+    private static ExamResultRequestDto examResultRequestDto;
+    private static ExamResult newExamResult;
+
+    private final ExamResultMapper examResultMapper = ExamResultMapper.INSTANCE;
+
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         examResult = new ExamResult();
-        examResult.setId(1);
+        examResult.setId(ID);
         examResult.setStudent(new Student());
-        examResult.setTeacher(new Teacher());
-        examResult.setLesson(new Lesson());
-        examResult.setTrueAnswerCount(10);
-        examResult.setFalseAnswerCount(0);
+        examResult.setSubject(new Subject());
+        examResult.setCountOfTrueAnswers(COUNT_OF_TRUE_ANSWERS);
 
         examResultResponseDto = new ExamResultResponseDto();
-        examResultResponseDto.setId(1);
-        examResultResponseDto.setTeacher(new TeacherResponseDto());
-        examResultResponseDto.setLesson(new LessonResponseDto());
-        examResultResponseDto.setTrueAnswerCount(10);
-        examResultResponseDto.setFalseAnswerCount(0);
+        examResultResponseDto.setId(ID);
+        examResultResponseDto.setSubject(new SubjectResponseDto());
+        examResultResponseDto.setCountOfTrueAnswers(COUNT_OF_TRUE_ANSWERS);
+
+        examResultRequestDto = new ExamResultRequestDto();
+        examResultRequestDto.setTrueAnswerCount(COUNT_OF_TRUE_ANSWERS);
+
+        newExamResult = new ExamResult();
+        newExamResult.setCountOfTrueAnswers(COUNT_OF_TRUE_ANSWERS);
+        newExamResult.setId(ID);
     }
 
     @Test
     void toExamResultDtoTest() {
-        ExamResultResponseDto actual = examResultMapper.toExamResultDto(examResult);
-
-        Assertions.assertEquals(examResultResponseDto, actual);
-    }
-
-    @Test
-    void toExamResultDtoListTest() {
-        List<ExamResult> given = new ArrayList<>();
-        given.add(examResult);
-
-        List<ExamResultResponseDto> expected = new ArrayList<>();
-        expected.add(examResultResponseDto);
-
-        List<ExamResultResponseDto> actual = examResultMapper.toExamResultDtoList(given);
-
-        Assertions.assertEquals(expected, actual);
+        ExamResult given = examResult;
+        ExamResultResponseDto expected = examResultResponseDto;
+        ExamResultResponseDto actual = examResultMapper.toExamResultDto(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toExamResultTest() {
-        ExamResultRequestDto given = new ExamResultRequestDto();
-        given.setTrueAnswerCount(10);
-        given.setFalseAnswerCount(0);
-
-        ExamResult expected = new ExamResult();
-        expected.setId(1000);
-        expected.setTrueAnswerCount(10);
-        expected.setFalseAnswerCount(0);
+        ExamResultRequestDto given = examResultRequestDto;
+        ExamResult expected = newExamResult;
 
         ExamResult actual = examResultMapper.toExamResult(given);
-        actual.setId(1000);
+        actual.setId(ID);
+        assertEquals(expected, actual);
+    }
 
-        Assertions.assertEquals(expected, actual);
+    @Test
+    void toExamResultDtoListTest() {
+        List<ExamResult> given = Collections.singletonList(examResult);
+        List<ExamResultResponseDto> expected = Collections.singletonList(examResultResponseDto);
+        List<ExamResultResponseDto> actual = examResultMapper.toExamResultDtoList(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toExamResultListTest() {
-        ExamResultRequestDto examResultRequestDto = new ExamResultRequestDto();
-        examResultRequestDto.setTrueAnswerCount(10);
-        examResultRequestDto.setFalseAnswerCount(0);
-
-        ExamResult examResult = new ExamResult();
-        examResult.setId(1000);
-        examResult.setTrueAnswerCount(10);
-        examResult.setFalseAnswerCount(0);
-
-        List<ExamResultRequestDto> given = new ArrayList<>();
-        given.add(examResultRequestDto);
-
-        List<ExamResult> expected = new ArrayList<>();
-        expected.add(examResult);
+        List<ExamResultRequestDto> given = Collections.singletonList(examResultRequestDto);
+        List<ExamResult> expected = Collections.singletonList(newExamResult);
 
         List<ExamResult> actual = examResultMapper.toExamResultList(given);
-        actual.get(0).setId(1000);
-
-        Assertions.assertEquals(expected, actual);
+        actual.get(0).setId(ID);
+        assertEquals(expected, actual);
     }
 }

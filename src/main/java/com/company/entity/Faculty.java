@@ -33,7 +33,7 @@ public class Faculty implements Serializable {
 
     @OneToMany(mappedBy = "faculty")
     @ToString.Exclude
-    private List<Lesson> lessons;
+    private List<Subject> subjects;
 
     @OneToMany(mappedBy = "faculty")
     @ToString.Exclude
@@ -47,12 +47,10 @@ public class Faculty implements Serializable {
         this.name = name;
     }
 
-    public boolean setHead(Teacher head) {
+    public void setHead(Teacher head) {
         if (head.getAcademicRank() == AcademicRank.PROFESSOR) {
             this.head = head;
-            return true;
-        } else
-            return false;
+        }
     }
 
     @Override

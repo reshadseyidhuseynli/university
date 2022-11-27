@@ -10,7 +10,7 @@ public class FacultyResponseDto {
     private Integer id;
     private String name;
     private TeacherResponseDto head;
-    private List<LessonResponseDto> lessons;
+    private List<SubjectResponseDto> subjects;
     private List<TeacherResponseDto> teachers;
     private List<StudentResponseDto> students;
 

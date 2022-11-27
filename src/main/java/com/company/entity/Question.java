@@ -37,9 +37,9 @@ public class Question implements Serializable {
     @Column(name = "true_option")
     private Integer trueOption;
 
-    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne
-    private Lesson lesson;
+    private Subject subject;
 
     public Question(String text,
                     String option1,

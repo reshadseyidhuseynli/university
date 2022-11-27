@@ -1,26 +1,26 @@
 package com.company.service;
 
 import com.company.dto.request.FacultyRequestDto;
-import com.company.dto.request.LessonRequestDto;
 import com.company.dto.request.StudentRequestDto;
+import com.company.dto.request.SubjectRequestDto;
 import com.company.dto.request.TeacherRequestDto;
 import com.company.dto.response.FacultyResponseDto;
-import com.company.dto.response.LessonResponseDto;
 import com.company.dto.response.StudentResponseDto;
-import com.company.dto.response.TeacherResponseDto;
+import com.company.dto.response.SubjectResponseDto;
 import com.company.entity.Faculty;
-import com.company.entity.Lesson;
 import com.company.entity.Student;
+import com.company.entity.Subject;
 import com.company.entity.Teacher;
 import com.company.error.ServiceException;
 import com.company.mapper.FacultyMapper;
-import com.company.mapper.LessonMapper;
 import com.company.mapper.StudentMapper;
+import com.company.mapper.SubjectMapper;
 import com.company.mapper.TeacherMapper;
 import com.company.repository.FacultyRepository;
-import com.company.repository.LessonRepository;
 import com.company.repository.StudentRepository;
+import com.company.repository.SubjectRepository;
 import com.company.repository.TeacherRepository;
+import com.company.dto.response.TeacherResponseDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class FacultyServiceTest {
     @Mock
     private FacultyRepository facultyRepository;
     @Mock
-    private LessonRepository lessonRepository;
+    private SubjectRepository subjectRepository;
     @Mock
     private TeacherRepository teacherRepository;
     @Mock
@@ -48,7 +48,7 @@ class FacultyServiceTest {
     @Mock
     private FacultyMapper facultyMapper;
     @Mock
-    private LessonMapper lessonMapper;
+    private SubjectMapper subjectMapper;
     @Mock
     private TeacherMapper teacherMapper;
     @Mock
@@ -120,39 +120,9 @@ class FacultyServiceTest {
     @Test
     void deleteTest() {
         Integer given = 1;
-
-        FacultyResponseDto expected = new FacultyResponseDto();
-
-        Mockito.when(facultyRepository.findById(given))
-                .thenReturn(Optional.of(faculty));
-        Mockito.when(facultyMapper.toFacultyDto(faculty))
-                .thenReturn(expected);
-
-        FacultyResponseDto actual = facultyService.delete(given);
-
-        Assertions.assertEquals(expected, actual);
+        facultyService.delete(given);
         Mockito.verify(facultyRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(facultyRepository, Mockito.times(1))
-                .delete(faculty);
-        Mockito.verify(facultyMapper, Mockito.times(1))
-                .toFacultyDto(faculty);
-    }
-
-    @Test
-    void deleteNotFoundFacultyTest() {
-        Integer given = 100;
-
-        Mockito.when(facultyRepository.findById(given))
-                .thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ServiceException.class, () -> facultyService.delete(given));
-        Mockito.verify(facultyRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(facultyRepository, Mockito.never())
-                .delete(faculty);
-        Mockito.verify(facultyMapper, Mockito.never())
-                .toFacultyDto(faculty);
+                .deleteById(given);
     }
 
     @Test
@@ -179,57 +149,57 @@ class FacultyServiceTest {
     }
 
     @Test
-    void addLessonToFacultyTest() {
+    void addSubjectToFacultyTest() {
         Integer givenId = 1;
-        LessonRequestDto givenDto = new LessonRequestDto();
-        LessonResponseDto expected = new LessonResponseDto();
+        SubjectRequestDto givenDto = new SubjectRequestDto();
+        SubjectResponseDto expected = new SubjectResponseDto();
 
-        Lesson lesson = new Lesson();
-        lesson.setFaculty(faculty);
+        Subject subject = new Subject();
+        subject.setFaculty(faculty);
 
         Mockito.when(facultyRepository.findById(givenId))
                 .thenReturn(Optional.of(faculty));
-        Mockito.when(lessonMapper.toLesson(givenDto))
-                .thenReturn(lesson);
-        Mockito.when(lessonRepository.save(lesson))
-                .thenReturn(lesson);
-        Mockito.when(lessonMapper.toLessonDto(lesson))
+        Mockito.when(subjectMapper.toSubject(givenDto))
+                .thenReturn(subject);
+        Mockito.when(subjectRepository.save(subject))
+                .thenReturn(subject);
+        Mockito.when(subjectMapper.toSubjectDto(subject))
                 .thenReturn(expected);
 
-        LessonResponseDto actual =
-                facultyService.addLessonToFaculty(givenId, givenDto);
+        SubjectResponseDto actual =
+                facultyService.addSubjectToFaculty(givenId, givenDto);
 
         Assertions.assertEquals(expected, actual);
         Mockito.verify(facultyRepository, Mockito.times(1))
                 .findById(givenId);
-        Mockito.verify(lessonMapper, Mockito.times(1))
-                .toLesson(givenDto);
-        Mockito.verify(lessonRepository, Mockito.times(1))
-                .save(lesson);
-        Mockito.verify(lessonMapper, Mockito.times(1))
-                .toLessonDto(lesson);
+        Mockito.verify(subjectMapper, Mockito.times(1))
+                .toSubject(givenDto);
+        Mockito.verify(subjectRepository, Mockito.times(1))
+                .save(subject);
+        Mockito.verify(subjectMapper, Mockito.times(1))
+                .toSubjectDto(subject);
     }
 
     @Test
     void addLessonToFacultyNotFoundFacultyTest() {
         Integer givenId = 100;
-        LessonRequestDto givenDto = new LessonRequestDto();
+        SubjectRequestDto givenDto = new SubjectRequestDto();
 
-        Lesson lesson = new Lesson();
+        Subject subject = new Subject();
 
         Mockito.when(facultyRepository.findById(givenId))
                 .thenReturn(Optional.empty());
 
         Assertions.assertThrows(ServiceException.class,
-                () -> facultyService.addLessonToFaculty(givenId, givenDto));
+                () -> facultyService.addSubjectToFaculty(givenId, givenDto));
         Mockito.verify(facultyRepository, Mockito.times(1))
                 .findById(givenId);
-        Mockito.verify(lessonMapper, Mockito.never())
-                .toLesson(givenDto);
-        Mockito.verify(lessonRepository, Mockito.never())
-                .save(lesson);
-        Mockito.verify(lessonMapper, Mockito.never())
-                .toLessonDto(lesson);
+        Mockito.verify(subjectMapper, Mockito.never())
+                .toSubject(givenDto);
+        Mockito.verify(subjectRepository, Mockito.never())
+                .save(subject);
+        Mockito.verify(subjectMapper, Mockito.never())
+                .toSubjectDto(subject);
     }
 
     @Test

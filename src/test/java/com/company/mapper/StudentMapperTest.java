@@ -5,7 +5,6 @@ import com.company.dto.response.ExamResultResponseDto;
 import com.company.dto.response.StudentResponseDto;
 import com.company.entity.ExamResult;
 import com.company.entity.Student;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -14,27 +13,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class StudentMapperTest {
 
-    private final StudentMapper studentMapper = StudentMapper.INSTANCE;
+    private static final Integer ID = 1;
+    private static final String STUDENT_NAME = "testStudentName";
+    private static final String STUDENT_SURNAME = "testStudentSurname";
 
     private static Student student;
     private static StudentResponseDto studentResponseDto;
 
+    private final StudentMapper studentMapper = StudentMapper.INSTANCE;
+
     @BeforeAll
-    private static void init() {
+    public static void init() {
         student = new Student();
-        student.setId(1);
-        student.setName("testStudentName");
-        student.setSurname("testStudentSurname");
+        student.setId(ID);
+        student.setName(STUDENT_NAME);
+        student.setSurname(STUDENT_SURNAME);
         student.setBirthdate(LocalDate.of(1997, 4, 1));
         student.setGrade(Grade.BACHELOR_I);
         student.setExamResults(new ArrayList<>(Collections.singletonList(new ExamResult())));
 
         studentResponseDto = new StudentResponseDto();
-        studentResponseDto.setId(1);
-        studentResponseDto.setName("testStudentName");
-        studentResponseDto.setSurname("testStudentSurname");
+        studentResponseDto.setId(ID);
+        studentResponseDto.setName(STUDENT_NAME);
+        studentResponseDto.setSurname(STUDENT_SURNAME);
         studentResponseDto.setBirthdate(LocalDate.of(1997, 4, 1));
         studentResponseDto.setGrade(Grade.BACHELOR_I);
         studentResponseDto.setExamResults(new ArrayList<>(Collections.singletonList(new ExamResultResponseDto())));
@@ -42,21 +47,17 @@ class StudentMapperTest {
 
     @Test
     void toStudentDtoTest() {
-        StudentResponseDto actual = studentMapper.toStudentDto(student);
-
-        Assertions.assertEquals(studentResponseDto, actual);
+        Student given = student;
+        StudentResponseDto expected = studentResponseDto;
+        StudentResponseDto actual = studentMapper.toStudentDto(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toStudentDtoListTest() {
-        List<Student> given = new ArrayList<>();
-        given.add(student);
-
-        List<StudentResponseDto> expected = new ArrayList<>();
-        expected.add(studentResponseDto);
-
+        List<Student> given = Collections.singletonList(student);
+        List<StudentResponseDto> expected = Collections.singletonList(studentResponseDto);
         List<StudentResponseDto> actual = studentMapper.toStudentDtoList(given);
-
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 }

@@ -1,15 +1,15 @@
 package com.company.service;
 
 import com.company.dto.response.StudentResponseDto;
-import com.company.dto.response.TeacherResponseDto;
 import com.company.entity.Student;
 import com.company.entity.Teacher;
 import com.company.entity.TeacherStudent;
+import com.company.repository.TeacherRepository;
+import com.company.dto.response.TeacherResponseDto;
 import com.company.error.ErrorCode;
 import com.company.error.ServiceException;
 import com.company.mapper.StudentMapper;
 import com.company.mapper.TeacherMapper;
-import com.company.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,28 +31,26 @@ public class TeacherService {
     }
 
     public TeacherResponseDto getById(Integer id) {
-        return teacherMapper.toTeacherDto(findByIdIfAvailable(id));
+        return teacherMapper.toTeacherDto(findById(id));
     }
 
-    public TeacherResponseDto delete(Integer id) {
-        final Teacher teacher = findByIdIfAvailable(id);
-        teacherRepository.delete(teacher);
-
-        return teacherMapper.toTeacherDto(teacher);
+    public void delete(Integer id) {
+        teacherRepository.deleteById(id);
     }
 
     public List<StudentResponseDto> getStudentsOfTeacherById(Integer id) {
 
-        Teacher teacher = findByIdIfAvailable(id);
+        Teacher teacher = findById(id);
         List<TeacherStudent> teacherStudentList = teacher.getStudents();
         List<Student> studentList = new ArrayList<>();
         for (TeacherStudent teacherStudent : teacherStudentList) {
-            studentList.add(teacherStudent.getStudent());
+            Student student = teacherStudent.getStudent();
+            studentList.add(student);
         }
         return studentMapper.toStudentDtoList(studentList);
     }
 
-    private Teacher findByIdIfAvailable(Integer id) {
+    private Teacher findById(Integer id) {
         return teacherRepository.findById(id)
                 .orElseThrow(() -> new ServiceException(
                         ErrorCode.TEACHER_NOT_FOUND,

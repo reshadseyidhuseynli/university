@@ -1,6 +1,7 @@
 package com.company.service;
 
 import com.company.dto.response.QuestionResponseDto;
+import com.company.dto.response.QuestionWithoutAnswerResponseDto;
 import com.company.entity.Question;
 import com.company.error.ServiceException;
 import com.company.mapper.QuestionMapper;
@@ -85,40 +86,51 @@ class QuestionServiceTest {
     @Test
     void deleteTest() {
         Integer given = 1;
-        Question question = new Question();
-        QuestionResponseDto expected = new QuestionResponseDto();
-
-        Mockito.when(questionRepository.findById(given))
-                .thenReturn(Optional.of(question));
-        Mockito.when(questionMapper.toQuestionDto(question))
-                .thenReturn(expected);
-
-        QuestionResponseDto actual = questionService.delete(given);
-
-        Assertions.assertEquals(expected, actual);
+        questionService.delete(given);
         Mockito.verify(questionRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(questionRepository, Mockito.times(1))
-                .delete(question);
-        Mockito.verify(questionMapper, Mockito.times(1))
-                .toQuestionDto(question);
+                .deleteById(given);
     }
 
     @Test
-    void deleteNotFoundTest() {
-        Integer given = 100;
-        Question question = new Question();
+    void getRandomQuestion_Success() {
+        Integer givenSubjectId = 1;
+        Integer givenCount = 10;
+        List<Question> questionList = new ArrayList<>();
+        List<QuestionWithoutAnswerResponseDto> expected = new ArrayList<>();
 
-        Mockito.when(questionRepository.findById(given))
-                .thenReturn(Optional.empty());
+        Mockito.when(questionRepository.getRandomQuestion(givenSubjectId, givenCount))
+                .thenReturn(questionList);
+        Mockito.when(questionMapper.toQuestionWithoutAnswerDtoList(questionList))
+                .thenReturn(expected);
 
-        Assertions.assertThrows(ServiceException.class,
-                () -> questionService.delete(given));
+        List<QuestionWithoutAnswerResponseDto> actual =
+                questionService.getRandomQuestions(givenSubjectId,givenCount);
+
+        Assertions.assertEquals(expected, actual);
         Mockito.verify(questionRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(questionRepository, Mockito.never())
-                .delete(question);
-        Mockito.verify(questionMapper, Mockito.never())
-                .toQuestionDto(question);
+                .getRandomQuestion(givenSubjectId, givenCount);
+        Mockito.verify(questionMapper, Mockito.times(1))
+                .toQuestionWithoutAnswerDtoList(questionList);
+    }
+
+    @Test
+    void findByIdList_Success() {
+        List<Integer> givenIdList = new ArrayList<>();
+        List<Question> questionList = new ArrayList<>();
+        List<QuestionResponseDto> expected = new ArrayList<>();
+
+        Mockito.when(questionRepository.findByIdIn(givenIdList))
+                .thenReturn(questionList);
+        Mockito.when(questionMapper.toQuestionDtoList(questionList))
+                .thenReturn(expected);
+
+        List<QuestionResponseDto> actual =
+                questionService.getByIdList(givenIdList);
+
+        Assertions.assertEquals(expected, actual);
+        Mockito.verify(questionRepository, Mockito.times(1))
+                .findByIdIn(givenIdList);
+        Mockito.verify(questionMapper, Mockito.times(1))
+                .toQuestionDtoList(questionList);
     }
 }

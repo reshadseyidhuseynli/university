@@ -3,7 +3,6 @@ package com.company.controller;
 import com.company.dto.response.BookResponseDto;
 import com.company.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,17 +15,17 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public ResponseEntity<List<BookResponseDto>> getAll() {
-        return ResponseEntity.ok(bookService.getAll());
+    public List<BookResponseDto> getAll() {
+        return bookService.getAll();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<BookResponseDto> getById(@PathVariable Integer id) {
-        return ResponseEntity.ok(bookService.getById(id));
+    public BookResponseDto getById(@PathVariable Integer id) {
+        return bookService.getById(id);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<BookResponseDto> delete(@PathVariable Integer id) {
-        return ResponseEntity.ok(bookService.delete(id));
+    public void delete(@PathVariable Integer id) {
+        bookService.delete(id);
     }
 }

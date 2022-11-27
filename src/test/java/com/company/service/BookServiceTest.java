@@ -86,20 +86,8 @@ class BookServiceTest {
     @Test
     void deleteTest() {
         Integer given = 1;
-
-        BookResponseDto expected = new BookResponseDto();
-
-        Mockito.when(bookRepository.findById(given)).thenReturn(Optional.of(book));
-        Mockito.when(bookMapper.toBookDto(book)).thenReturn(expected);
-
-        BookResponseDto actual = bookService.delete(given);
-
-        Assertions.assertEquals(expected, actual);
+        bookService.delete(given);
         Mockito.verify(bookRepository, Mockito.times(1))
-                .findById(given);
-        Mockito.verify(bookRepository, Mockito.times(1))
-                .delete(book);
-        Mockito.verify(bookMapper, Mockito.times(1))
-                .toBookDto(book);
+                .deleteById(given);
     }
 }

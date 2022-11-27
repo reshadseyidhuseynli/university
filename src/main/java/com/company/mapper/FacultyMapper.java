@@ -15,9 +15,9 @@ public interface FacultyMapper {
 
     FacultyResponseDto toFacultyDto(Faculty faculty);
 
-    List<FacultyResponseDto> toFacultyDtoList(List<Faculty> facultyList);
-
     Faculty toFaculty(FacultyRequestDto facultyRequestDto);
+
+    List<FacultyResponseDto> toFacultyDtoList(List<Faculty> facultyList);
 
     List<Faculty> toFacultyList(List<FacultyRequestDto> facultyList);
 

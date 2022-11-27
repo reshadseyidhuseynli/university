@@ -5,68 +5,70 @@ import com.company.dto.response.AuthorResponseDto;
 import com.company.dto.response.BookResponseDto;
 import com.company.entity.Author;
 import com.company.entity.Book;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class AuthorMapperTest {
 
-    private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
+    private static final Integer ID = 1;
+    private static final String AUTHOR_NAME = "testAuthor";
 
     private static Author author;
     private static AuthorResponseDto authorResponseDto;
+    private static AuthorRequestDto authorRequestDto;
+    private static Author newAuthor;
+
+    private final AuthorMapper authorMapper = AuthorMapper.INSTANCE;
 
     @BeforeAll
-    private static void init() {
+    public static void init() {
         author = new Author();
-        author.setId(1);
-        author.setName("testAuthor");
+        author.setId(ID);
+        author.setName(AUTHOR_NAME);
         Book book = new Book();
-        book.setId(1);
+        book.setId(ID);
         author.setBooks(Collections.singletonList(book));
 
         authorResponseDto = new AuthorResponseDto();
-        authorResponseDto.setId(1);
-        authorResponseDto.setName("testAuthor");
+        authorResponseDto.setId(ID);
+        authorResponseDto.setName(AUTHOR_NAME);
         BookResponseDto bookResponseDto = new BookResponseDto();
-        bookResponseDto.setId(1);
+        bookResponseDto.setId(ID);
         authorResponseDto.setBooks(Collections.singletonList(bookResponseDto));
+
+        authorRequestDto = new AuthorRequestDto();
+        authorRequestDto.setName(AUTHOR_NAME);
+
+        newAuthor = new Author();
+        newAuthor.setName(AUTHOR_NAME);
     }
 
     @Test
     void toAuthorDtoTest() {
-        AuthorResponseDto actual = authorMapper.toAuthorDto(author);
-
-        Assertions.assertEquals(authorResponseDto, actual);
+        Author given = author;
+        AuthorResponseDto expected = authorResponseDto;
+        AuthorResponseDto actual = authorMapper.toAuthorDto(given);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toAuthorTest() {
-        AuthorRequestDto given = new AuthorRequestDto();
-        given.setName("testAuthor");
-
-        Author expected = new Author();
-        expected.setName("testAuthor");
-
+        AuthorRequestDto given = authorRequestDto;
+        Author expected = newAuthor;
         Author actual = authorMapper.toAuthor(given);
-
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
     void toAuthorDtoListTest() {
-        List<Author> given = new ArrayList<>();
-        given.add(author);
-
-        List<AuthorResponseDto> expected = new ArrayList<>();
-        expected.add(authorResponseDto);
-
+        List<Author> given = Collections.singletonList(author);
+        List<AuthorResponseDto> expected = Collections.singletonList(authorResponseDto);
         List<AuthorResponseDto> actual = authorMapper.toAuthorDtoList(given);
-
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 }

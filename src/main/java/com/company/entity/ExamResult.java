@@ -26,24 +26,18 @@ public class ExamResult implements Serializable {
     @ManyToOne
     private Student student;
 
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    @ManyToOne
-    private Teacher teacher;
-
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     @ManyToOne
-    private Lesson lesson;
+    private Subject subject;
 
-    @Column(name = "true_answer_count")
-    private Integer trueAnswerCount;
-
-    @Column(name = "false_answer_count")
-    private Integer falseAnswerCount;
+    @Column(name = "count_of_true_answers")
+    private Integer countOfTrueAnswers;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || Hibernate.getClass(this) !=
+                Hibernate.getClass(o)) return false;
         ExamResult that = (ExamResult) o;
         return id != null && Objects.equals(id, that.id);
     }

@@ -1,17 +1,17 @@
 package com.company.service;
 
-import com.company.dto.response.AuthorResponseDto;
-import com.company.dto.response.BookResponseDto;
 import com.company.dto.request.AuthorRequestDto;
 import com.company.dto.request.BookRequestDto;
+import com.company.dto.response.AuthorResponseDto;
+import com.company.dto.response.BookResponseDto;
 import com.company.entity.Author;
 import com.company.entity.Book;
-import com.company.error.ErrorCode;
-import com.company.error.ServiceException;
 import com.company.mapper.AuthorMapper;
 import com.company.mapper.BookMapper;
-import com.company.repository.AuthorRepository;
 import com.company.repository.BookRepository;
+import com.company.error.ErrorCode;
+import com.company.error.ServiceException;
+import com.company.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,14 +33,11 @@ public class AuthorService {
     }
 
     public AuthorResponseDto getById(Integer id) {
-        return authorMapper.toAuthorDto(findByIdIfAvailable(id));
+        return authorMapper.toAuthorDto(findById(id));
     }
 
-    public AuthorResponseDto delete(Integer id) {
-        final Author author = findByIdIfAvailable(id);
-        authorRepository.delete(author);
-
-        return authorMapper.toAuthorDto(author);
+    public void delete(Integer id) {
+        authorRepository.deleteById(id);
     }
 
     public AuthorResponseDto add(AuthorRequestDto requestDto) {
@@ -49,14 +46,13 @@ public class AuthorService {
     }
 
     public BookResponseDto addBookToAuthor(Integer authorId, BookRequestDto requestDto) {
-        final Author author = findByIdIfAvailable(authorId);
-        final Book book = bookMapper.toBook(requestDto);
+        Author author = findById(authorId);
+        Book book = bookMapper.toBook(requestDto);
         book.setAuthor(author);
-
         return bookMapper.toBookDto(bookRepository.save(book));
     }
 
-    private Author findByIdIfAvailable(Integer id){
+    private Author findById(Integer id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new ServiceException(
                         ErrorCode.AUTHOR_NOT_FOUND,

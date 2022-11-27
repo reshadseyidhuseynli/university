@@ -3,7 +3,7 @@ package com.company.dto.request;
 import lombok.Data;
 
 @Data
-public class LessonRequestDto {
+public class SubjectRequestDto {
 
     String name;
 

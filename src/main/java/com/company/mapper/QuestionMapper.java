@@ -2,8 +2,8 @@ package com.company.mapper;
 
 import com.company.dto.request.QuestionRequestDto;
 import com.company.dto.response.QuestionResponseDto;
-import com.company.dto.response.QuestionWithoutAnswerResponseDto;
 import com.company.entity.Question;
+import com.company.dto.response.QuestionWithoutAnswerResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -44,7 +44,7 @@ public class Teacher implements Serializable {
 
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     @ManyToOne
-    private Lesson lesson;
+    private Subject subject;
 
     @OneToMany(mappedBy = "teacher")
     @ToString.Exclude
